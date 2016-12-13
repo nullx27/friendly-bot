@@ -10,7 +10,7 @@ class FriendlyBot extends EventEmitter {
         this.config = config;
         this.client = new Discord.Client();
 
-        this.client.on('ready', this.register.bind(this));
+        this.client.once('ready', this.register.bind(this));
     }
 
     register(){
