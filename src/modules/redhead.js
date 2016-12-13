@@ -10,11 +10,12 @@ class Haiku extends Module {
     }
 
     handle(message){
-        request('https://imgur.com/r/redheads/hot.json', (error, response, body) => {
+        request('https://imgur.com/r/SFWRedheads/hot.json', (error, response, body) => {
 
             if(!error && response.statusCode == 200) {
                 var msg;
                 var data = JSON.parse(body)['data'];
+
                 var redhead = data[Math.floor(Math.random()*data.length)];
 
                 msg = `http://imgur.com/${redhead.hash}${redhead.ext.replace(/\?.*/, '')}`;
