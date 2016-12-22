@@ -23,6 +23,7 @@ class xkcd extends Module {
     handle(message){
         var msg;
         var select = "";
+        var send = true;
 
         //try block to catch exception if no command is given
         try {
@@ -33,11 +34,25 @@ class xkcd extends Module {
         }
 
         var host = "";
+
         //if message got !command number, use different api to get specific xkcd
         if (select != "" && !isNaN(select))
             host = `http://xkcd.com/${select}/info.0.json`;
         else if (select == "latest")
             host = "http://xkcd.com/info.0.json";
+        else if (select == "help")
+        {
+            send = false;
+            msg = "```" +
+                "\"!xkcd\" : " + "\t" + "Gives random xkcd" + "\n" +
+                "\"!xkcd latest\" : " + "\t" + "Gives latest xkcd" + "\n" +
+                "\"!xkcd {number}\" : " + "\t" + "Gives that specific xkcd. Maks is: " + maxRandom + "\n" +
+                "\"!xkcd {random letters}\" : " + "\t" + "Gives random xkcd" + "\n" +
+                "\"!xkcd help\" : " + "\t" + "Gives this menu" + "\n" +
+                "There is currently a total of: " + maxRandom + " xkcd entries" +
+                "```";
+            message.channel.sendMessage(msg);
+        }
         else
         {
             //Random gets triggered no matter what you write as parameter aslong as it's not a number
@@ -45,24 +60,26 @@ class xkcd extends Module {
             var random = Math.floor(Math.random()*(maxRandom-minRandom+1)+minRandom);
             host = `http://xkcd.com/${random}/info.0.json`;
         }
+        if (send) //only send/get stuff from api if needed
+        {
+            request(host, (error, response, body) => {
+                if(!error && response.statusCode == 200) {
+                    var data = JSON.parse(body);
+                    var img = data.img;
+                    var safeTitle = data.safe_title;
+                    var altTitle= data.alt;
 
-        request(host, (error, response, body) => {
-            if(!error && response.statusCode == 200) {
-                var data = JSON.parse(body);
-                var img = data.img;
-                var safeTitle = data.safe_title;
-                var altTitle= data.alt;
+                    msg = "```" + safeTitle + " - " + altTitle + "```" + "\n" + img;
 
-                msg = "```" + safeTitle + " - " + altTitle + "```" + "\n" + img;
-
-            } else if (response.statusCode == 404)
-            {
-                msg = "That specific xkcd doesn't exist. Please choose another! Remember to only use numbers"
-            } else {
-                msg = "Something went wrong. Best ping @Crow LightBringer#7621";
-            }
-            message.channel.sendMessage(msg);
-        });
+                } else if (response.statusCode == 404)
+                {
+                    msg = "That specific xkcd doesn't exist. Please choose another! Remember to only use numbers"
+                } else {
+                    msg = "Something went wrong. Best ping @Crow LightBringer#7621";
+                }
+                message.channel.sendMessage(msg);
+            });
+        }
     }
 }
 
