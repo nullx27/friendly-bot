@@ -41,9 +41,9 @@ class xkcd extends Module {
                 var data = JSON.parse(body);
                 var img = data.img;
                 var safeTitle = data.safe_title;
-                //var altTitle= data.alt;
+                var altTitle= data.alt;
 
-                msg = safeTitle + "\n" + img;
+                msg = "```" + safeTitle + " - " + altTitle + "```" + "\n" + img;
 
             } else if (response.statusCode == 404)
             {
