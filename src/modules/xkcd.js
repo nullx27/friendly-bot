@@ -3,8 +3,19 @@
 const Module = require('../module');
 const request = require('request');
 
-
+var maxRandom = 0;
 class xkcd extends Module {
+    init() {
+        //get max number of xkcds to auto update the random function
+        request("http://xkcd.com/info.0.json", (error, response, body) => {
+            if(!error && response.statusCode == 200) {
+                var data = JSON.parse(body);
+                maxRandom = data.num;
+            }
+        });
+        return;
+    }
+
     trigger(){
         return "xkcd";
     }
@@ -30,9 +41,8 @@ class xkcd extends Module {
         else
         {
             //Random gets triggered no matter what you write as parameter aslong as it's not a number
-            var max = 1775;//have to set this manually. need to be updated now and then
-            var min = 1;
-            var random = Math.floor(Math.random()*(max-min+1)+min);
+            var minRandom = 1;
+            var random = Math.floor(Math.random()*(maxRandom-minRandom+1)+minRandom);
             host = `http://xkcd.com/${random}/info.0.json`;
         }
 
