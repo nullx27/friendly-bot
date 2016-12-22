@@ -29,6 +29,14 @@ class FriendlyBot extends EventEmitter {
 
         this.client.login(this.config.discord_token);
     }
+
+    getClient(){
+        return this.client;
+    }
+
+    getChannelByName(name) {
+        return this.client.channels.find('name', name)
+    }
 }
 
 module.exports = FriendlyBot;

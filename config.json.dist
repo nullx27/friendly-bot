@@ -1,5 +1,5 @@
 {
     "discord_token": "",
-    "corporationId": [],
-    "channels": [""]
+    "allianceID": 0,
+    "boardcast_channel": ""
 }
