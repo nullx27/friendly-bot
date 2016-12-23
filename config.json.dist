@@ -1,5 +1,6 @@
 {
     "discord_token": "",
     "corporationId": [],
-    "channels": [""]
+    "channels": [""],
+    "nsfwChannels": ["nsfw"]
 }
