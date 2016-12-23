@@ -48,10 +48,7 @@ class Zkill extends Module {
                                 request(`https://crest-tq.eveonline.com/inventory/types/${killmail.victim.shipTypeID}/`, (error, response, body) => {
                                     if (!error && response.statusCode == 200) {
                                         let typeInfo = JSON.parse(body);
-
-                                        let message = '';
-
-                                        message += '```';
+                                        let message = '```';
 
                                         if (killmail.victim.allianceID == this.allianceID) {
                                             message += killmail.victim.characterName + ' lost a ' + typeInfo.name + '\n';
@@ -77,7 +74,6 @@ class Zkill extends Module {
                                         message += 'https://zkillboard.com/kill/' + killmail.killID + '\n';
 
                                         channel.sendMessage(message);
-
                                     }
                                 })
                             }
