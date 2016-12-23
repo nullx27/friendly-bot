@@ -11,7 +11,7 @@ class SoS extends Module {
 
     help(){
         return "Sword or Sheath. You decide \n" +
-            "\n" +
+            "\n\n" +
             "Available commands:\n" +
             "!sos \t Get a random image from r/SwordOrSheath";
     }

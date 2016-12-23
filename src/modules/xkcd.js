@@ -22,7 +22,7 @@ class xkcd extends Module {
 
     help(){
         return "Get a comic from xkcd.com" +
-            "\n" +
+            "\n\n" +
             "Available commands:\n" +
             "!xkcd" +                   "\t\t\t\t\t " + "Gives random xkcd" +                               "\n" +
             "!xkcd latest" +            "\t\t\t  " +    "Gives latest xkcd" +                               "\n" +

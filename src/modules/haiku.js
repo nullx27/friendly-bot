@@ -10,7 +10,7 @@ class Haiku extends Module {
 
     help() {
         return "Get a inspireing haiku about a DAMN PATRIOT's sexual prowess" +
-        "\n" +
+        "\n\n" +
         "Available commands:\n" +
         "!haiku";
     }

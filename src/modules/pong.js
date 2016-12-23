@@ -9,7 +9,7 @@ class Pong extends Module {
 
     help(){
         return "Ping/Pong command for this bot." +
-            "\n" +
+            "\n\n" +
             "Available commands:\n" +
             "!ping \t Get a pong response from the bot";
     }
