@@ -20,6 +20,19 @@ class xkcd extends Module {
         return "xkcd";
     }
 
+    help(){
+        return "Get a comic from xkcd.com" +
+            "\n" +
+            "Available commands:\n" +
+            "!xkcd" +                   "\t\t\t\t\t " + "Gives random xkcd" +                               "\n" +
+            "!xkcd latest" +            "\t\t\t  " +    "Gives latest xkcd" +                               "\n" +
+            "!xkcd {number}" +          "\t\t\t" +      "Gives that specific xkcd. Maks is: " + maxRandom + "\n" +
+            "!xkcd {random letters}" +  "\t" +          "Gives random xkcd" +                               "\n" +
+            "!xkcd help" +              "\t\t\t\t" +    "Gives this menu" +                                 "\n" +
+            "\n" +
+            "There are currently a total of " + maxRandom + " xkcd entries";
+    }
+
     handle(message){
         var msg;
         var select = "";
@@ -40,20 +53,6 @@ class xkcd extends Module {
             host = `http://xkcd.com/${select}/info.0.json`;
         else if (select == "latest")
             host = "http://xkcd.com/info.0.json";
-        else if (select == "help")
-        {
-            send = false;
-            msg = "```" +
-                    "\"!xkcd\"" +                   "\t\t\t\t\t " +  "Gives random xkcd" +                               "\n" +
-                    "\"!xkcd latest\"" +            "\t\t\t  " +    "Gives latest xkcd" +                               "\n" +
-                    "\"!xkcd {number}\"" +          "\t\t\t" +      "Gives that specific xkcd. Maks is: " + maxRandom + "\n" +
-                    "\"!xkcd {random letters}\"" +  "\t" +          "Gives random xkcd" +                               "\n" +
-                    "\"!xkcd help\"" +              "\t\t\t\t" +    "Gives this menu" +                                 "\n" +
-                    "\n" +
-                    "There is currently a total of " + maxRandom + " xkcd entries" +
-                    "```";
-            message.channel.sendMessage(msg);
-        }
         else
         {
             //Random gets triggered no matter what you write as parameter aslong as it's not a number
