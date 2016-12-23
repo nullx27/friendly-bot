@@ -4,8 +4,8 @@ const Module = require('../module');
 const request = require('request');
 
 var maxRandom = 0;
-class youtube extends Module {
 
+class youtube extends Module {
     trigger(){
         return "youtube";
     }
@@ -32,8 +32,6 @@ class youtube extends Module {
             send = false;
             message.channel.sendMessage("You need to enter something to search for, you dumbass!");
         }
-
-
 
         var key = this.bot.config.youtubeAPI;
 
