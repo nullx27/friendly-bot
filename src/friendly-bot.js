@@ -8,25 +8,32 @@ class FriendlyBot extends EventEmitter {
         super();
 
         this.config = config;
-        this.client = new Discord.Client();
+        this.modules = {};
 
-        this.client.once('ready', this.register.bind(this));
+        this.client = new Discord.Client();
+        this.client.once('ready', this.ready.bind(this));
     }
 
-    register(){
+    ready(){
         this.client.on('message', this.handleMessage.bind(this))
+    }
+
+    register(name, module){
+        this.modules[name] = module;
+    }
+
+    getModules(){
+        return this.modules;
     }
 
     handleMessage(message){
         if(message.content.startsWith('!')) {
             var trigger = message.content.substring(1).split(' ')[0].trim();
-            console.log('Trigger: ' + trigger + ' Msg: ' + message.content);
             this.emit('trigger:' + trigger, message);
         }
     }
 
     run(){
-
         this.client.login(this.config.discord_token);
     }
 

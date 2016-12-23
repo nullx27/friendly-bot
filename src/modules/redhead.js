@@ -4,9 +4,16 @@ const Module = require('../module');
 const request = require('request');
 
 
-class Haiku extends Module {
+class Redhead extends Module {
     trigger(){
         return "redhead";
+    }
+
+    help(){
+        return "Random readhead form r/SFWRedheads. \n" +
+            "\n" +
+            "Available commands:\n" +
+            "!redhead \t Get a random redhead";
     }
 
     handle(message){
@@ -30,5 +37,5 @@ class Haiku extends Module {
 }
 
 module.exports = function(bot) {
-    new Haiku(bot);
+    new Redhead(bot);
 };

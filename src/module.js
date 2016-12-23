@@ -3,6 +3,7 @@
 class Module {
     constructor(Bot){
         this.bot = Bot;
+        this.bot.register(this.constructor.name, this);
 
         if(this.trigger() != '') {
             this.bot.on('trigger:' + this.trigger(), this.handle.bind(this));
@@ -23,6 +24,9 @@ class Module {
         return;
     }
 
+    help(){
+        return "";
+    }
 }
 
 module.exports = Module;

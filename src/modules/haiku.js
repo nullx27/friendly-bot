@@ -8,6 +8,13 @@ class Haiku extends Module {
         return "haiku";
     }
 
+    help() {
+        return "Get a inspireing haiku about a DAMN PATRIOT's sexual prowess" +
+        "\n" +
+        "Available commands:\n" +
+        "!haiku";
+    }
+
     handle(message){
         request('http://dropbearsanonymo.us/api/haiku', (error, response, body) => {
             var msg;
