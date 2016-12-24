@@ -41,9 +41,6 @@ class youtube extends Module {
 
         if (send)
         {
-            //loading msg
-            var sentMsg = message.channel.sendMessage("Loading Post... Please wait you impatient fool!");
-
             request(host, (error, response, body) => {
                 if(!error && response.statusCode == 200) {
                     var data = JSON.parse(body);
@@ -53,7 +50,7 @@ class youtube extends Module {
                 } else {
                     msg = "Something went wrong. Best ping @Crow LightBringer#7621";
                 }
-                sentMsg.then(message => {message.edit(msg)});
+                message.channel.sendMessage(msg);
             });
         }
     }
