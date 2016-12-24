@@ -4,7 +4,7 @@ const Module = require('../module');
 const request = require('request');
 
 var maxRandom = 0;
-class tfts extends Module {
+class youtube extends Module {
 
     trigger(){
         return "youtube";
@@ -34,12 +34,16 @@ class tfts extends Module {
         }
 
 
+
         var key = this.bot.config.youtubeAPI;
 
         var host = `https://content.googleapis.com/youtube/v3/search?part=snippet&q=${search}&safeSearch=moderate&key=${key}`;
 
         if (send)
         {
+            //loading msg
+            var sentMsg = message.channel.sendMessage("Loading Post... Please wait you impatient fool!");
+
             request(host, (error, response, body) => {
                 if(!error && response.statusCode == 200) {
                     var data = JSON.parse(body);
@@ -49,12 +53,12 @@ class tfts extends Module {
                 } else {
                     msg = "Something went wrong. Best ping @Crow LightBringer#7621";
                 }
-                message.channel.sendMessage(msg);
+                sentMsg.then(message => {message.edit(msg)});
             });
         }
     }
 }
 
 module.exports = function(bot) {
-    new tfts(bot);
+    new youtube(bot);
 };
