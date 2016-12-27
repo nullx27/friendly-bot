@@ -33,7 +33,7 @@ class Zkill extends Module {
         }
 
         let channel = this.bot.getChannelByName(this.bot.config.boardcast_channel);
-        let url = `https://zkillboard.com/api/allianceID/${this.allianceID}/afterKillID/${this.killid}/`;
+        let url = `https://zkillboard.com/api/allianceID/${this.allianceID}/afterKillID/${this.killid}/orderDirection/asc/`;
 
         request(url, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
@@ -52,7 +52,7 @@ class Zkill extends Module {
 
                                         if (killmail.victim.allianceID == this.allianceID) {
                                             message += killmail.victim.characterName + ' lost a ' + typeInfo.name + '\n';
-                                            message += 'Damage taken: ' + killmail.victim.damageTaken + '\n';
+                                            message += 'Damage taken: ' + Number(killmail.victim.damageTaken).toLocaleString() + '\n';
 
                                         } else {
                                             let killer = '';
@@ -64,12 +64,12 @@ class Zkill extends Module {
                                             }
 
                                             message += killer.characterName + ' killed a ' + typeInfo.name + '\n';
-                                            message += 'Damge done: ' + killer.damageDone + '\n';
+                                            message += 'Damge done: ' + Number(killer.damageDone).toLocaleString() + '\n';
                                         }
 
                                         message += 'Time: ' + killmail.killTime + '\n';
                                         message += 'Systen: ' + systemInfo.name + '\n';
-                                        message += 'Value: ' + killmail.zkb.totalValue + ' ISK \n';
+                                        message += 'Value: ' + NUmber(killmail.zkb.totalValue).toLocaleString() + ' ISK \n';
                                         message += '```';
                                         message += 'https://zkillboard.com/kill/' + killmail.killID + '\n';
 
