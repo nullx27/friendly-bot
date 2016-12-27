@@ -28,7 +28,6 @@ class xkcd extends Module {
             "!xkcd latest" +            "\t\t\t  " +    "Gives latest xkcd" +                               "\n" +
             "!xkcd {number}" +          "\t\t\t" +      "Gives that specific xkcd. Maks is: " + maxRandom + "\n" +
             "!xkcd {random letters}" +  "\t" +          "Gives random xkcd" +                               "\n" +
-            "!xkcd help" +              "\t\t\t\t" +    "Gives this menu" +                                 "\n" +
             "\n" +
             "There are currently a total of " + maxRandom + " xkcd entries";
     }
