@@ -38,7 +38,6 @@ class Zkill extends Module {
         request(url, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     let killmails = JSON.parse(body);
-
                     for (let killmail of killmails) {
 
                         request(`https://crest-tq.eveonline.com/solarsystems/${killmail.solarSystemID}/`, (error, response, body) => {
@@ -51,9 +50,7 @@ class Zkill extends Module {
                                         let message = '```';
 
                                         if (killmail.victim.allianceID == this.allianceID) {
-                                            message += killmail.victim.characterName + ' lost a ' + typeInfo.name + '\n';
-                                            message += 'Damage taken: ' + Number(killmail.victim.damageTaken).toLocaleString() + '\n';
-
+                                            message += killmail.victim.characterName + ' lost a ' + typeInfo.name + ' ';
                                         } else {
                                             let killer = '';
                                             for (let attacker of killmail.attackers) {
@@ -63,16 +60,13 @@ class Zkill extends Module {
                                                 }
                                             }
 
-                                            message += killer.characterName + ' killed a ' + typeInfo.name + '\n';
-                                            message += 'Damge done: ' + Number(killer.damageDone).toLocaleString() + '\n';
+                                            message += killer.characterName + ' killed a ' + typeInfo.name + ' ';
                                         }
 
-                                        message += 'Time: ' + killmail.killTime + '\n';
-                                        message += 'Systen: ' + systemInfo.name + '\n';
-                                        message += 'Value: ' + NUmber(killmail.zkb.totalValue).toLocaleString() + ' ISK \n';
+                                        message += 'in ' + systemInfo.name + '\n';
+                                        message += 'Value: ' + Number(killmail.zkb.totalValue).toLocaleString() + ' ISK \n';
                                         message += '```';
                                         message += 'https://zkillboard.com/kill/' + killmail.killID + '\n';
-
                                         channel.sendMessage(message);
                                     }
                                 })
