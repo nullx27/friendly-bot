@@ -15,7 +15,12 @@ class AdminCommands extends Module {
     }
 
     help(){
-        return "";
+        return "commands only admins on the admin list in config file can use" +
+            "\n\n" +
+            "Available commands:\n" +
+            "!admin say <channel> <message>"+   "\t\t"      + "Bot says message in channel"             +    "\n" +
+            "!admin addadmin <username>"    +   "\t\t\t"    + "Add user to the admin list"              +    "\n" +
+            "!admin rmadmin <username>"     +   "\t\t\t "   + "Removes user from the config admin list" +    "\n";
     }
 
     handle(message){
