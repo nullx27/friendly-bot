@@ -76,7 +76,7 @@ class AdminCommands extends Module {
 
         var username = this.mergeArrayToString(command);
 
-        var user = this.bot.getUserByName(username);
+        var user = this.bot.getGuildUserByName(username);
         if (user == null)
         {
             message.channel.sendMessage("can't find the user. Be sure to spell the name exactly with correct capitalization");
@@ -111,7 +111,7 @@ class AdminCommands extends Module {
 
         var username = this.mergeArrayToString(command);
 
-        var user = this.bot.getUserByName(username);
+        var user = this.bot.getGuildUserByName(username);
         if (user == null)
         {
             message.channel.sendMessage("can't find the user. Be sure to spell the name exactly with correct capitalization");
