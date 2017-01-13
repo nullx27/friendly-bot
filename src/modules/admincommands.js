@@ -96,8 +96,8 @@ class AdminCommands extends Module {
 
         fs.writeFile(configPath, string, function(err) {
             if(err) return console.error(err);
-            console.log('Updated config file for Admin Commands');
-            message.channel.sendMessage("User: " + user.username + " is now added to adminlist")
+            //console.log('Updated config file for Admin Commands');
+            message.channel.sendMessage("User: " + (user.username == undefined ? user.nickname : user.username)  + " is now added to adminlist")
         })
     }
 
@@ -134,8 +134,8 @@ class AdminCommands extends Module {
 
         fs.writeFile(configPath, string, function(err) {
             if(err) return console.error(err);
-            console.log('Updated config file for Admin Commands');
-            message.channel.sendMessage("User: " + user.username + " is now removed from adminlist")
+            //console.log('Updated config file for Admin Commands');
+            message.channel.sendMessage("User: " + (user.username == undefined ? user.nickname : user.username) + " is now removed from adminlist")
         })
     }
 
