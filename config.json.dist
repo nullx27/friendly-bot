@@ -1,5 +1,6 @@
 {
     "discord_token": "",
     "allianceID": 0,
-    "boardcast_channel": ""
+    "boardcast_channel": "",
+    "youtubeAPI": ""
 }
