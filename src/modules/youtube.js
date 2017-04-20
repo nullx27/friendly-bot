@@ -44,9 +44,14 @@ class youtube extends Module {
             request(host, (error, response, body) => {
                 if(!error && response.statusCode == 200) {
                     var data = JSON.parse(body);
-                    var videolink = data.items[0].id.videoId;
 
-                    msg = `https://www.youtube.com/watch?v=${videolink}`;
+                    if(data == null || data.items[0].id.videoId == null) {
+                        msg = "Couldn't find any videos with that search term. Please try another search term.";
+                    }
+                    else {
+                        var videolink = data.items[0].id.videoId;
+                        msg = `https://www.youtube.com/watch?v=${videolink}`;
+                    }
                 } else {
                     msg = "Something went wrong. Best ping @Crow LightBringer#7621";
                 }
