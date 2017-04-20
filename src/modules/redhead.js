@@ -16,6 +16,10 @@ class Redhead extends Module {
             "!redhead \t Get a random redhead";
     }
 
+    restrictedChannel() {
+        return true;
+    }
+
     handle(message){
         request('https://imgur.com/r/SFWRedheads/hot.json', (error, response, body) => {
 
