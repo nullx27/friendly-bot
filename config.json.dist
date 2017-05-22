@@ -3,5 +3,6 @@
     "allianceID": 0,
     "boardcast_channel": "",
     "youtubeAPI": "",
-    "restricted_channel": []
+    "restricted_channel": [],
+    "wolframAlphaAPI": ""
 }
