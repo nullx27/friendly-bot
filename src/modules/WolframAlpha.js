@@ -46,7 +46,7 @@ class WolframAlpha extends Module {
                     var data = JSON.parse(body);
 
                     //check for success
-                    if (!data.success) {
+                    if (!data.queryresult.success) {
                         msg = "Couldn't understand the input."
                     } else {
                         //Correct input, can parse output
