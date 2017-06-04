@@ -27,6 +27,10 @@ class Module {
     help(){
         return "";
     }
+
+    restrictedChannel() {
+        return false;
+    }
 }
 
 module.exports = Module;

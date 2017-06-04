@@ -29,7 +29,39 @@ class FriendlyBot extends EventEmitter {
     handleMessage(message){
         if(message.content.startsWith('!')) {
             var trigger = message.content.substring(1).split(' ')[0].trim();
-            this.emit('trigger:' + trigger, message);
+
+            //check if trigger is registered as restricted
+            var restricted;
+            let modules = this.getModules();
+            let restrictedChannels = this.config.restricted_channel;
+
+            for(let key in modules){
+                if(modules[key].trigger() == trigger){
+                    restricted = modules[key].restrictedChannel();
+                    break;
+                }
+            }
+
+            //if restricted is true and channel name match one of the channels in config, or if config is empty send msg, otherwise give error msg
+            if(!restricted) {
+                this.emit('trigger:' + trigger, message);
+            }
+            else if (restricted && restrictedChannels.indexOf(message.channel.name) >= 0) {
+                this.emit('trigger:' + trigger, message);
+            }
+            else if (restrictedChannels.length == 0) {
+                this.emit('trigger:' + trigger, message);
+            }
+            else {
+                var msg = "This command are only allowed in the following channels:\n";
+                msg += "```";
+                for(let cIndex in restrictedChannels) {
+                    msg += restrictedChannels[cIndex] + "\n";
+                }
+                msg += "```";
+
+                message.channel.sendMessage(msg);
+            }
         }
     }
 

@@ -3,8 +3,8 @@
 const Module = require('../module');
 const request = require('request');
 
-
 class Redhead extends Module {
+
     trigger(){
         return "redhead";
     }
@@ -14,6 +14,10 @@ class Redhead extends Module {
             "\n\n" +
             "Available commands:\n" +
             "!redhead \t Get a random redhead";
+    }
+
+    restrictedChannel() {
+        return true;
     }
 
     handle(message){
