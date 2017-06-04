@@ -4,5 +4,5 @@
     "boardcast_channel": "",
     "youtubeAPI": "",
     "restricted_channel": [],
-    "wolframAlphaAPI": ""
+    "wolframAlphaAPI": "1"
 }

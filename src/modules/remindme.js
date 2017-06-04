@@ -1,7 +1,7 @@
 'use strict';
 
 const Module = require('../module');
-const moment = require('moment-timezone');
+const moment = require('moment');
 const dateparse = require('dateparser');
 const JsonDB = require('node-json-db');
 
