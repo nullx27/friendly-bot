@@ -7,7 +7,7 @@ const JsonDB = require('node-json-db');
 
 class Remindme extends Module {
     init() {
-        this.db = new JsonDB("remindme", true, false);
+        this.db = new JsonDB(__dirname + "/remindme", true, false);
 
         setInterval(this.check.bind(this), 20000);
     }
@@ -65,7 +65,7 @@ class Remindme extends Module {
 
         this.db.push('/' + message.id, data);
 
-        message.reply('Reminder set for ' + moment(data.time).format("dddd, MMMM Do YYYY, h:mm:ss a"));
+        message.reply('Reminder set for ' + moment(data.time).utc().format("dddd, MMMM Do YYYY, h:mm:ss a") + " UTC");
     }
 }
 
