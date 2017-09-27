@@ -31,7 +31,11 @@ class SoS extends Module {
                 msg = "Something went wrong. Best ping @Grimm#0928";
             }
 
-            message.channel.sendMessage(msg);
+            message.channel.send(msg)
+                .then(message => {
+                    message.react('👨');
+                    message.react('👩');
+                });
         });
     }
 }
