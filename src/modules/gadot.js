@@ -17,7 +17,7 @@ class Gadot extends Module {
     }
 
     restrictedChannel() {
-        return false;
+        return true;
     }
 
     handle(message){
