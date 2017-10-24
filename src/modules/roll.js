@@ -33,12 +33,12 @@ class roll extends Module {
         }
 
         if (dice == "") {
-            message.channel.sendMessage("You need to enter a dice to roll!");
+            message.channel.send("You need to enter a dice to roll!");
         } else {
             var max = parseInt(dice);
             var roll = this.getRandomInt(min,max);
             msg = "```" + "You rolled " + roll + " on a D" + dice + "." + "```";
-            message.channel.sendMessage(msg);
+            message.channel.send(msg);
         }
     };
 }

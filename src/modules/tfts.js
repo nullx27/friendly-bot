@@ -18,7 +18,7 @@ class tfts extends Module {
         var msg;
 
         //loading msg
-        var sentMsg = message.channel.sendMessage("Loading Post... Please wait you impatient fool!");
+        var sentMsg = message.channel.send("Loading Post... Please wait you impatient fool!");
 
         var host = "https://www.reddit.com/r/talesfromtechsupport/random/.json?raw_json=1";
         request(host, (error, response, body) => {

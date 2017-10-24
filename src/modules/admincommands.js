@@ -28,7 +28,7 @@ class AdminCommands extends Module {
 
         if (!config.admins.includes(message.author.id))
         {
-            message.channel.sendMessage("You are not admin!");
+            message.channel.send("You are not admin!");
             return;
         }
 
@@ -70,7 +70,7 @@ class AdminCommands extends Module {
     {
         if(command.length <= 0 )
         {
-            message.channel.sendMessage("Need to specify who to add to admin list. Use '!help admin' to see how the command is used");
+            message.channel.send("Need to specify who to add to admin list. Use '!help admin' to see how the command is used");
             return
         }
 
@@ -79,7 +79,7 @@ class AdminCommands extends Module {
         var user = this.bot.getUserByName(username);
         if (user == null)
         {
-            message.channel.sendMessage("can't find the user. Be sure to spell the name exactly with correct capitalization");
+            message.channel.send("can't find the user. Be sure to spell the name exactly with correct capitalization");
             return;
         }
 
@@ -88,7 +88,7 @@ class AdminCommands extends Module {
             config.admins.push(user.id);
         else
         {
-            message.channel.sendMessage("User already exists in admin list");
+            message.channel.send("User already exists in admin list");
             return
         }
 
@@ -97,7 +97,7 @@ class AdminCommands extends Module {
         fs.writeFile(configPath, string, function(err) {
             if(err) return console.error(err);
             //console.log('Updated config file for Admin Commands');
-            message.channel.sendMessage("User: " + (user.username == undefined ? user.nickname : user.username)  + " is now added to adminlist")
+            message.channel.send("User: " + (user.username == undefined ? user.nickname : user.username)  + " is now added to adminlist")
         })
     }
 
@@ -105,7 +105,7 @@ class AdminCommands extends Module {
     {
         if(command.length <= 0 )
         {
-            message.channel.sendMessage("Need to specify who to remove from admin list. Use '!help admin' to see how the command is used");
+            message.channel.send("Need to specify who to remove from admin list. Use '!help admin' to see how the command is used");
             return
         }
 
@@ -114,7 +114,7 @@ class AdminCommands extends Module {
         var user = this.bot.getUserByName(username);
         if (user == null)
         {
-            message.channel.sendMessage("can't find the user. Be sure to spell the name exactly with correct capitalization");
+            message.channel.send("can't find the user. Be sure to spell the name exactly with correct capitalization");
             return;
         }
 
@@ -126,7 +126,7 @@ class AdminCommands extends Module {
         }
         else
         {
-            message.channel.sendMessage("User doesn't exists in admin list");
+            message.channel.send("User doesn't exists in admin list");
             return
         }
 
@@ -135,14 +135,14 @@ class AdminCommands extends Module {
         fs.writeFile(configPath, string, function(err) {
             if(err) return console.error(err);
             //console.log('Updated config file for Admin Commands');
-            message.channel.sendMessage("User: " + (user.username == undefined ? user.nickname : user.username) + " is now removed from adminlist")
+            message.channel.send("User: " + (user.username == undefined ? user.nickname : user.username) + " is now removed from adminlist")
         })
     }
 
     say(command, message){
         if(command.length <= 1 )
         {
-            message.channel.sendMessage("Need to specify both channel and message. Use '!help admin' to see how the command is used");
+            message.channel.send("Need to specify both channel and message. Use '!help admin' to see how the command is used");
             return;
         }
 
@@ -150,7 +150,7 @@ class AdminCommands extends Module {
 
         if (channel == null)
         {
-            message.channel.sendMessage("Channel doesn't exist or the bot doesn't have access to it");
+            message.channel.send("Channel doesn't exist or the bot doesn't have access to it");
             return;
         }
         //remove the channel part of the command
@@ -158,7 +158,7 @@ class AdminCommands extends Module {
 
         var msg = this.mergeArrayToString(command);
 
-        channel.sendMessage(msg);
+        channel.send(msg);
     }
 }
 

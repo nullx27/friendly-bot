@@ -26,7 +26,7 @@ class Time extends Module {
         msg += "RUS: \t\t" + moment().tz("Europe/Moscow").format("HH:mm") + "\n";
         msg += "```";
 
-        message.channel.sendMessage(msg);
+        message.channel.send(msg);
     }
 }
 

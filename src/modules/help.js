@@ -43,7 +43,7 @@ class Help extends Module {
 
         msg += "```";
 
-        message.channel.sendMessage(msg);
+        message.channel.send(msg);
     }
 }
 

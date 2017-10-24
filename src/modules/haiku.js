@@ -31,7 +31,7 @@ class Haiku extends Module {
                 msg = "Something went wrong. Best ping @Grimm#0928";
             }
 
-            message.channel.sendMessage(msg);
+            message.channel.send(msg);
         });
     }
 }
