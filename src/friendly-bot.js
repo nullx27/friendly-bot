@@ -60,10 +60,8 @@ class FriendlyBot extends EventEmitter {
                 }
                 msg += "```";
 
-                message.channel.sendMessage(msg);
+                message.channel.send(msg);
             }
-
-            this.emit('trigger:' + trigger, message);
         }
     }
 
