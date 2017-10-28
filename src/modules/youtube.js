@@ -4,8 +4,8 @@ const Module = require('../module');
 const request = require('request');
 
 var maxRandom = 0;
-class youtube extends Module {
 
+class youtube extends Module {
     trigger(){
         return "youtube";
     }
@@ -30,10 +30,8 @@ class youtube extends Module {
         if (search == "")
         {
             send = false;
-            message.channel.sendMessage("You need to enter something to search for, you dumbass!");
+            message.channel.send("You need to enter something to search for, you dumbass!");
         }
-
-
 
         var key = this.bot.config.youtubeAPI;
 
@@ -55,7 +53,7 @@ class youtube extends Module {
                 } else {
                     msg = "Something went wrong. Best ping @Crow LightBringer#7621";
                 }
-                message.channel.sendMessage(msg);
+                message.channel.send(msg);
             });
         }
     }

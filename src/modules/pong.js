@@ -15,7 +15,7 @@ class Pong extends Module {
     }
 
     handle(message){
-        message.channel.sendMessage('pong');
+        message.channel.send('pong');
     }
 }
 

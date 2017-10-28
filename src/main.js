@@ -3,8 +3,8 @@
 let autoload = require('auto-load');
 let config = require('../config.json');
 
-let Bot = require('./friendly-bot');
-let modules = autoload(__dirname + '/modules');
+var Bot = require('./friendly-bot');
+var modules = autoload(__dirname + '/modules');
 
 let bot = new Bot(config);
 

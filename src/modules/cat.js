@@ -27,7 +27,7 @@ class cat extends Module {
             } else {
                 msg = "Something went wrong. Best ping @Crow LightBringer#7621";
             }
-            message.channel.sendMessage(msg);
+            message.channel.send(msg);
         });
     }
 }
