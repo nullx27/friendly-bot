@@ -2,6 +2,7 @@
 
 const Module = require('../module');
 const request = require('request');
+const Discord = require('discord.js');
 
 var maxRandom = 0;
 class tfts extends Module {
@@ -11,7 +12,10 @@ class tfts extends Module {
     }
 
     help(){
-        return "Get a hot story from r/TalesFromTechSupport subreddit";
+        return "Get a hot story from r/TalesFromTechSupport subreddit \n" +
+            "\n\n" +
+            "Available commands:\n" +
+            "!tfts \t Get a random story from TFTS";
     }
 
     handle(message){
@@ -24,25 +28,26 @@ class tfts extends Module {
         request(host, (error, response, body) => {
             if(!error && response.statusCode == 200) {
                 var data = JSON.parse(body);
-                var post = data[0].data.children[0].data;
-                var text = post.selftext.replace(/&gt;/g, ">").replace(/&lt;/g, "<"); //.replace(/\\([\s\S])|(")/g,"\\$1$2");
-                //console.log(text);
 
-                //msg = "```"
-                //        + "**" + post.title + "**"
-                //        + "\n\n"
-                //        + text + "\n" + "```";
+                //have amount of tries to find random post not stickied as we got posts.
+                for (var i = 0; i < data.data.children.length; i++) {
+                    //randomize posts
+                    var rand = Math.floor(Math.random()*data.data.children.length);
+                    var post = data.data.children[rand].data;
 
-                msg = `**${post.title}** \n\n${text} \n`;
-                msg = "```" + msg + "```";
-
-
+                    //don't go for stickied posts
+                    if (!post.stickied ) {
+                        var text = post.selftext.replace(/&gt;/g, ">").replace(/&lt;/g, "<"); //.replace(/\\([\s\S])|(")/g,"\\$1$2");
+                        //got \u200b because \n doesn't work on first line unless a char is put first
+                        msg = `\u200b \n **${post.title}** \n \`\`\` ${text} \`\`\` \n`;
+                        break;
+                    }
+                }
             } else {
                 msg = "Something went wrong. Best ping @Crow LightBringer#7621";
             }
-            console.log("sent msg");
-            console.log(msg);
-            sentMsg.then(message => {message.edit(msg)});
+            sentMsg.then(message => {message.delete(msg)});
+            message.channel.send(msg, {split: {prepend: "```", append:"```"}});
         });
     }
 }
