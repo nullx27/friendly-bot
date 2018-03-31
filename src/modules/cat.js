@@ -18,7 +18,7 @@ class cat extends Module {
 
     handle(message){
         var msg;
-        var host = "http://random.cat/meow";
+        var host = "http://aws.random.cat/meow";
 
         request(host, (error, response, body) => {
             if (!error && response.statusCode == 200) {
