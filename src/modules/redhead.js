@@ -9,7 +9,7 @@ class Redhead extends Module {
     }
 
     help(){
-        return "Random readhead form r/SFWRedheads. \n" +
+        return "Random readhead from r/SFWRedheads. \n" +
             "\n\n" +
             "Available commands:\n" +
             "!redhead \t Get a random redhead";

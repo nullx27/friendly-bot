@@ -3,17 +3,17 @@
 const Module = require('../module');
 const request = require('request');
 
-class Gadot extends Module {
+class Tinder extends Module {
 
     trigger(){
-        return "gadot";
+        return "tinder";
     }
 
     help(){
-        return "Random Gal Gadot from imgur. \n" +
+        return "Random Tinder from imgur. \n" +
             "\n\n" +
             "Available commands:\n" +
-            "!gadot \t Get a random Gal Gadot image";
+            "!tinder \t Get a random tinder image";
     }
 
     restrictedChannel() {
@@ -21,7 +21,7 @@ class Gadot extends Module {
     }
 
     handle(message){
-        request('https://imgur.com/r/GalGadot/hot.json', (error, response, body) => {
+        request('https://imgur.com/r/tinder/hot.json', (error, response, body) => {
 
             if(!error && response.statusCode == 200) {
                 var msg;
@@ -41,5 +41,5 @@ class Gadot extends Module {
 }
 
 module.exports = function(bot) {
-    new Gadot(bot);
+    new Tinder(bot);
 };
