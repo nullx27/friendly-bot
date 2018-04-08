@@ -17,7 +17,7 @@ class Tinder extends Module {
     }
 
     restrictedChannel() {
-        return true;
+        return false;
     }
 
     handle(message){

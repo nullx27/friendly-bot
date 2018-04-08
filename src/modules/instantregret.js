@@ -17,7 +17,7 @@ class InstantRegret extends Module {
     }
 
     restrictedChannel() {
-        return true;
+        return false;
     }
 
     handle(message){
