@@ -3,25 +3,25 @@
 const Module = require('../module');
 const request = require('request');
 
-class Gadot extends Module {
+class InstantRegret extends Module {
 
     trigger(){
-        return "gadot";
+        return "instantregret";
     }
 
     help(){
-        return "Random Gal Gadot from imgur. \n" +
+        return "Random instantregret from imgur. \n" +
             "\n\n" +
             "Available commands:\n" +
-            "!gadot \t Get a random Gal Gadot image";
+            "!instantregret \t Get a random instantregret";
     }
 
     restrictedChannel() {
-        return true;
+        return false;
     }
 
     handle(message){
-        request('https://imgur.com/r/GalGadot/hot.json', (error, response, body) => {
+        request('https://imgur.com/r/instantregret/hot.json', (error, response, body) => {
 
             if(!error && response.statusCode == 200) {
                 var msg;
@@ -29,7 +29,7 @@ class Gadot extends Module {
 
                 var object = data[Math.floor(Math.random()*data.length)];
 
-                msg = `http://imgur.com/${object.hash}${object.ext.replace(/\?.*/, '')}`;
+                msg = "```" + object.title + "```" + "\n" + `http://imgur.com/${object.hash}${object.ext.replace(/\?.*/, '')}`;
 
             } else {
                 msg = "Something went wrong. Best ping @Crow LightBringer#7621";
@@ -41,5 +41,5 @@ class Gadot extends Module {
 }
 
 module.exports = function(bot) {
-    new Gadot(bot);
+    new InstantRegret(bot);
 };

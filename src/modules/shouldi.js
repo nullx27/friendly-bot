@@ -3,27 +3,27 @@
 const Module = require('../module');
 const request = require('request');
 
-class cat extends Module {
+class shouldi extends Module {
 
     trigger(){
-        return "cat";
+        return "shouldi";
     }
 
     help(){
-        return "Get a random cat" +
+        return "Get a random yes or no" +
             "\n\n" +
             "Available commands:\n" +
-            "!cat" +                   "\t\t\t\t\t " + "Gives random cat";
+            "!shouldi" +                   "\t\t\t\t\t " + "Gives random yes or no";
     }
 
     handle(message){
-        var msg;
-        var host = "http://aws.random.cat/meow";
+        let msg;
+        let host = "https://yesno.wtf/api/";
 
         request(host, (error, response, body) => {
             if (!error && response.statusCode == 200) {
-                var data = JSON.parse(body);
-                msg = data.file;
+                let data = JSON.parse(body);
+                msg = "```" + data.answer + "```" + "\n" + data.image;
             } else {
                 msg = "Something went wrong. Best ping @Crow LightBringer#7621";
             }
@@ -33,5 +33,5 @@ class cat extends Module {
 }
 
 module.exports = function(bot) {
-    new cat(bot);
+    new shouldi(bot);
 };

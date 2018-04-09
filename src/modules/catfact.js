@@ -3,27 +3,27 @@
 const Module = require('../module');
 const request = require('request');
 
-class cat extends Module {
+class catfact extends Module {
 
     trigger(){
-        return "cat";
+        return "catfact";
     }
 
     help(){
-        return "Get a random cat" +
+        return "Get a random cat fact" +
             "\n\n" +
             "Available commands:\n" +
-            "!cat" +                   "\t\t\t\t\t " + "Gives random cat";
+            "!catfact" +                   "\t\t\t\t\t " + "Gives random cat fact";
     }
 
     handle(message){
-        var msg;
-        var host = "http://aws.random.cat/meow";
+        let msg;
+        let host = "https://catfact.ninja/fact";
 
         request(host, (error, response, body) => {
             if (!error && response.statusCode == 200) {
-                var data = JSON.parse(body);
-                msg = data.file;
+                let data = JSON.parse(body);
+                msg = "```" + data.fact + "```";
             } else {
                 msg = "Something went wrong. Best ping @Crow LightBringer#7621";
             }
@@ -33,5 +33,5 @@ class cat extends Module {
 }
 
 module.exports = function(bot) {
-    new cat(bot);
+    new catfact(bot);
 };
