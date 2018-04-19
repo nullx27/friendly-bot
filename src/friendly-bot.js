@@ -35,6 +35,16 @@ class FriendlyBot extends EventEmitter {
             let modules = this.getModules();
             let restrictedChannels = this.config.restricted_channel;
 
+            //check if user is banned. Only applies when admincommands module is present
+            let admin = modules.AdminCommands;
+            if (admin && message.guild.ownerID !== message.author.id) {
+                if (admin.isUserBanned(message.author.id)) {
+                    msg = "You are banned and not allowed to play with me! \n";
+                    message.channel.send(msg);
+                    return;
+                }
+            }
+
             for(let key in modules){
                 if(modules[key].trigger() == trigger){
                     restricted = modules[key].restrictedChannel();

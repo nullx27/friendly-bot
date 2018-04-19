@@ -20,7 +20,9 @@ class AdminCommands extends Module {
             "Available commands:\n" +
             "!admin say <channel> <message>"+   "\t\t"      + "Bot says message in channel"             +    "\n" +
             "!admin addadmin <username>"    +   "\t\t\t"    + "Add user to the admin list"              +    "\n" +
-            "!admin rmadmin <username>"     +   "\t\t\t "   + "Removes user from the config admin list" +    "\n";
+            "!admin rmadmin <username>"     +   "\t\t\t "   + "Removes user from the config admin list" +    "\n" +
+            "!admin unban <username>"       +   "\t "       + "Removes a user from the ban list and can again use bot commands" + "\n" +
+            "!admin ban <username>"         +   "\t "       + "Adds a user to a ban list and is banned from using bot commands" + "\n";
     }
 
     handle(message){
@@ -54,6 +56,14 @@ class AdminCommands extends Module {
                 command.shift();
                 this.rmAdmin(command, message);
                 break;
+            case "ban":
+                command.shift();
+                this.ban(command, message);
+                break;
+            case "unban":
+                command.shift();
+                this.unban(command, message);
+                break;
         }
     }
 
@@ -64,6 +74,82 @@ class AdminCommands extends Module {
             string += item + " ";
         });
         return string.trim();
+    }
+
+    ban(command, message)
+    {
+        if(command.length <= 0 )
+        {
+            message.channel.send("Need to specify who to add to ban list. Use '!help admin' to see how the command is used");
+            return
+        }
+
+        var username = this.mergeArrayToString(command);
+
+        var user = this.bot.getUserByName(username);
+        if (user == null)
+        {
+            message.channel.send("can't find the user. Be sure to spell the name exactly with correct capitalization");
+            return;
+        }
+
+        //write to config file if user isn't present already
+        if (!config.banned_users.includes(user.id))
+            config.banned_users.push(user.id);
+        else
+        {
+            message.channel.send("User already exists in ban list");
+            return
+        }
+
+        var string = JSON.stringify(config, null, '\t');
+
+        fs.writeFile(configPath, string, function(err) {
+            if(err) return console.error(err);
+            //console.log('Updated config file for Admin Commands');
+            message.channel.send("User: " + (user.username == undefined ? user.nickname : user.username)  + " is now banned from botcommands")
+        })
+    }
+
+    unban(command, message) {
+        if(command.length <= 0 )
+        {
+            message.channel.send("Need to specify who to remove from ban list. Use '!help admin' to see how the command is used");
+            return
+        }
+
+        var username = this.mergeArrayToString(command);
+
+        var user = this.bot.getUserByName(username);
+        if (user == null)
+        {
+            message.channel.send("can't find the user. Be sure to spell the name exactly with correct capitalization");
+            return;
+        }
+
+        //write to config file if user isn't present already
+        if (config.banned_users.includes(user.id))
+        {
+            var pos = config.banned_users.indexOf(user.id);
+            config.banned_users.splice(pos, 1);
+        }
+        else
+        {
+            message.channel.send("User doesn't exists in ban list");
+            return
+        }
+
+        var string = JSON.stringify(config, null, '\t');
+
+        fs.writeFile(configPath, string, function(err) {
+            if(err) return console.error(err);
+            //console.log('Updated config file for Admin Commands');
+            message.channel.send("User: " + (user.username == undefined ? user.nickname : user.username) + " is now removed from banlist")
+        })
+    }
+
+    isUserBanned(userid) {
+        return config.banned_users.includes(userid);
     }
 
     addAdmin(command, message)
