@@ -10,14 +10,15 @@
   "author": "Grimm Venris <grimm@wormhole.life>",
   "license": "MIT",
   "dependencies": {
-    "dateparser": "^1.0.6",
     "auto-load": "^3.0.0",
+    "dateparser": "^1.0.6",
     "discord.js": "^11.2.1",
     "imgur": "^0.2.0",
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.11",
     "node-json-db": "^0.7.3",
     "request": "^2.76.0",
-    "unique-random-array": "^1.0.0"
+    "unique-random-array": "^1.0.0",
+    "ws": "^5.2.0"
   }
 }

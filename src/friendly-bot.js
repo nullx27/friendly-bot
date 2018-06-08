@@ -87,6 +87,10 @@ class FriendlyBot extends EventEmitter {
         return this.client.channels.find('name', name)
     }
 
+    getChannelById(id) {
+        return this.client.channels.find('id', id)
+    }
+
     getUserByName(name) {
         var member;
         var guild = this.client.guilds.every(function(element){
