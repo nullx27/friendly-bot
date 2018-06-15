@@ -16,7 +16,7 @@ class Haiku extends Module {
     }
 
     handle(message){
-        request('http://dropbearsanonymo.us/api/haiku', (error, response, body) => {
+        request('http://baers.nimos.ws/api/haiku', (error, response, body) => {
             var msg;
             if(!error && response.statusCode == 200) {
                 var haiku = JSON.parse(body);
