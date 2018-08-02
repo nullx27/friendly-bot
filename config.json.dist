@@ -4,5 +4,6 @@
     "boardcast_channel": "",
     "youtubeAPI": "",
     "restricted_channel": [],
-    "wolframAlphaAPI": "1"
+    "wolframAlphaAPI": "1",
+    "asgard_api_token": ""
 }
