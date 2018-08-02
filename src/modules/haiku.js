@@ -21,6 +21,7 @@ class Haiku extends Module {
 
         try {
             let input = message.content.substring(1).trim().slice(5).trim();
+            input = encodeURI(input);
             url = `https://auth.friendlyprobes.net/api/haiku/${input}?api_token=` + this.bot.config.asgard_api_token
         }
         catch (e) {
