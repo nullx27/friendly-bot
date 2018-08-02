@@ -39,6 +39,8 @@ class Haiku extends Module {
                 msg += '-' + haiku.author;
                 msg += '```';
 
+            } else if (response.statusCode == 404) {
+                msg = 'No Haiku found';
             } else {
                 msg = "Something went wrong. Best ping @Grimm#0928";
             }
