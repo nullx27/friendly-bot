@@ -1,106 +1,82 @@
 'use strict';
 
-const EventEmitter = require('events');
 const Discord = require('discord.js');
+const moment = require('moment');
 
-class FriendlyBot extends EventEmitter {
-    constructor(config) {
-        super();
+const CommandHandler = require('./handlers/CommandHandler');
+const NotfiyHandler = require('./handlers/NotifyHandler');
+const EventHandler = require('./handlers/EventHandler');
+const eveOnlineStatus = require('./fetcher/EveOnlineStatus');
 
-        this.config = config;
-        this.modules = {};
+class FriendlyBot {
+    constructor(logger) {
+        this.logger = logger;
 
-        this.client = new Discord.Client();
-        this.client.once('ready', this.ready.bind(this));
+        this.token = process.env.DISCORD_TOKEN;
+
+        this.discord = Discord;
+
+        this.client = new Discord.Client({
+            fetchAllMembers: false,
+            ws: {
+                large_threshold: 500,
+                compress: true
+            }
+        });
+
+        this.commandHandler = new CommandHandler(logger, this);
+        this.notifyHandler = new NotfiyHandler(logger, this.discord);
+        this.eventHandler = new EventHandler(logger, this);
+
+        this.bootstrapped = false;
     }
 
-    ready(){
-        this.client.on('message', this.handleMessage.bind(this))
+    registerEventHandlers() {
+        this.client.on('ready', (event) => this.readyEvent(this));
+
+        this.client.on('disconnect', (event) => {
+            this.logger.error(`Disconnected with close event: ${event.code}`);
+        });
+        this.client.on('error', error => this.logger.error(error));
+        this.client.on('warn', warning => this.logger.warning(warning));
     }
 
-    register(name, module){
-        this.modules[name] = module;
+    readyEvent(self) {
+        setInterval(self.updatePresence.bind(self), 3000);
+
+        self.logger.info('Ready event received, starting normal operation.');
+        self.bootstrapped = true;
     }
 
-    getModules(){
-        return this.modules;
-    }
+    async updatePresence() {
+        const status = await eveOnlineStatus(this.logger);
 
-    handleMessage(message){
-        if(message.content.startsWith('!')) {
-            var trigger = message.content.substring(1).split(' ')[0].trim();
-
-            //check if trigger is registered as restricted
-            var restricted;
-            let modules = this.getModules();
-            let restrictedChannels = this.config.restricted_channel;
-
-            //check if user is banned. Only applies when admincommands module is present
-            let admin = modules.AdminCommands;
-            if (admin && message.guild.ownerID !== message.author.id) {
-                if (admin.isUserBanned(message.author.id)) {
-                    msg = "You are banned and not allowed to play with me! \n";
-                    message.channel.send(msg);
-                    return;
+        if (status !== null) {
+            this.client.user.setPresence(
+                {
+                    status: 'online',
+                    afk: false,
+                    game: {
+                        name: `you | Time: ${moment().utc().format("HH:mm")} EVE | Online ${status.players}`,
+                        type: 'WATCHING',
+                    },
                 }
-            }
-
-            for(let key in modules){
-                if(modules[key].trigger() == trigger){
-                    restricted = modules[key].restrictedChannel();
-                    break;
-                }
-            }
-
-            //if restricted is true and channel name match one of the channels in config, or if config is empty send msg, otherwise give error msg
-            if(!restricted) {
-                this.emit('trigger:' + trigger, message);
-            }
-            else if (restricted && restrictedChannels.indexOf(message.channel.name) >= 0) {
-                this.emit('trigger:' + trigger, message);
-            }
-            else if (restrictedChannels.length == 0) {
-                this.emit('trigger:' + trigger, message);
-            }
-            else {
-                var msg = "This command are only allowed in the following channels:\n";
-                msg += "```";
-                for(let cIndex in restrictedChannels) {
-                    msg += restrictedChannels[cIndex] + "\n";
-                }
-                msg += "```";
-
-                message.channel.send(msg);
-            }
+            );
         }
     }
 
-    run(){
-        this.client.login(this.config.discord_token);
+    async run() {
+        this.logger.info('Bot started');
+        this.registerEventHandlers();
+
+        this.commandHandler.load();
+        this.notifyHandler.load();
+
+        await this.client.login(this.token);
+        this.logger.info('Successfully logged in');
+
     }
 
-    getClient(){
-        return this.client;
-    }
-
-    getChannelByName(name) {
-        return this.client.channels.find('name', name)
-    }
-
-    getChannelById(id) {
-        return this.client.channels.find('id', id)
-    }
-
-    getUserByName(name) {
-        var member;
-        var guild = this.client.guilds.every(function(element){
-            member = element.members.find('nickname', name);
-        });
-        if (member == null)
-            return this.client.users.find('username', name);
-
-        return member;
-    }
 }
 
 module.exports = FriendlyBot;
