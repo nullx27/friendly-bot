@@ -1,32 +1,26 @@
 'use strict';
 
 const Discord = require('discord.js');
-const moment = require('moment');
-
 const CommandHandler = require('./handlers/CommandHandler');
-const NotfiyHandler = require('./handlers/NotifyHandler');
-const EventHandler = require('./handlers/EventHandler');
-const eveOnlineStatus = require('./fetcher/EveOnlineStatus');
+const NotifiyHandler = require('./handlers/NotifyHandler');
+const Scheduler = require('./handlers/Scheduler');
 
 class FriendlyBot {
     constructor(logger) {
         this.logger = logger;
 
         this.token = process.env.DISCORD_TOKEN;
-
-        this.discord = Discord;
-
         this.client = new Discord.Client({
             fetchAllMembers: false,
             ws: {
                 large_threshold: 500,
-                compress: true
-            }
+                compress: true,
+            },
         });
 
         this.commandHandler = new CommandHandler(logger, this);
-        this.notifyHandler = new NotfiyHandler(logger, this.discord);
-        this.eventHandler = new EventHandler(logger, this);
+        this.notifyHandler = new NotifiyHandler(logger, this);
+        this.scheduler = new Scheduler();
 
         this.bootstrapped = false;
     }
@@ -39,30 +33,16 @@ class FriendlyBot {
         });
         this.client.on('error', error => this.logger.error(error));
         this.client.on('warn', warning => this.logger.warning(warning));
+
+        this.client.on('message',
+                message => this.commandHandler.handle(message));
     }
 
     readyEvent(self) {
-        setInterval(self.updatePresence.bind(self), 3000);
-
         self.logger.info('Ready event received, starting normal operation.');
         self.bootstrapped = true;
-    }
+        setInterval(this.scheduler.run.bind(this.scheduler), 1000);
 
-    async updatePresence() {
-        const status = await eveOnlineStatus(this.logger);
-
-        if (status !== null) {
-            this.client.user.setPresence(
-                {
-                    status: 'online',
-                    afk: false,
-                    game: {
-                        name: `you | Time: ${moment().utc().format("HH:mm")} EVE | Online ${status.players}`,
-                        type: 'WATCHING',
-                    },
-                }
-            );
-        }
     }
 
     async run() {
@@ -74,9 +54,7 @@ class FriendlyBot {
 
         await this.client.login(this.token);
         this.logger.info('Successfully logged in');
-
     }
-
 }
 
 module.exports = FriendlyBot;

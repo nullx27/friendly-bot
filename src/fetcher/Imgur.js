@@ -2,9 +2,8 @@
 
 const fetch = require('node-fetch');
 
-
-const EveOnlineStatus = async (logger) => {
-    const url = 'https://esi.evetech.net/dev/status/?datasource=tranquility';
+const Imgur = async (channel, type) => {
+    const url = `https://imgur.com/r/${channel}/${type}.json`;
 
     try {
         const response = await fetch(url);
@@ -15,4 +14,4 @@ const EveOnlineStatus = async (logger) => {
     }
 };
 
-module.exports = EveOnlineStatus;
+module.exports = Imgur;
