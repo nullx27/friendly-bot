@@ -1,9 +1,8 @@
 'use strict'
 
-const Command = require('../../models/Command')
-const Message = require('../../models/messages/Message')
+const AdminCommand = require('../../models/AdminCommand')
 
-class Say extends Command {
+class Say extends AdminCommand {
     trigger () {
         return 'say'
     }
