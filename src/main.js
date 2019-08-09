@@ -1,7 +1,7 @@
 'use strict'
 
 require('dotenv').config()
-const FriendlyBot = require('./src/friendly-bot')
+const FriendlyBot = require('./friendly-bot')
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, printf } = format
 
