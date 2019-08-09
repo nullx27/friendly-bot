@@ -5,6 +5,10 @@ class Command {
         this.bot = bot;
     }
 
+    help() {
+
+    }
+
     trigger() {
         return 'trigger';
     }
