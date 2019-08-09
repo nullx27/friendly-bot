@@ -4,13 +4,20 @@ class Task {
     lastExecute = 0
     lock = false
 
-    schedule () {}
+    constructor (bot, target) {
+        this.bot = bot
+        this.target = target
+    }
 
-    execute () {
+    schedule () {
+        return this.target
+    }
+
+    async execute () {
         if (this.lock === true) return
 
         this.lock = true
-        this.run()
+        await this.run()
         this.lock = false
     }
 

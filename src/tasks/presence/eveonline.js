@@ -5,19 +5,9 @@ const eveOnlineStatus = require('../../fetcher/EveOnlineStatus')
 const moment = require('moment')
 
 class Eveonline extends Task {
-
-    constructor (bot, interval) {
-        super()
-        this.bot = bot
-        this.target = interval
-    }
-
-    schedule () {
-        return this.target
-    }
-
     async run () {
-        const status = await eveOnlineStatus()
+        const status = await eveOnlineStatus().
+            catch((e) => this.bot.logger.warn('Can\'t fetch Eve Online Status. Error: ' + e))
 
         if (status !== null) {
             this.bot.client.user.setPresence(

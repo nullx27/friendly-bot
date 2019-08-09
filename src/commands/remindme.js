@@ -1,21 +1,47 @@
 'use strict'
 
 const Command = require('../models/Command')
-const Message = require('../models/messages/SimpleReply')
-const task = require('../tasks/remindme')
-const moment = require('moment');
 
+const moment = require('moment-timezone')
+const chrono = require('chrono-node')
+const Reply = require('../models/messages/Reply')
 
 class RemindMe extends Command {
     trigger () {
         return 'remindme'
     }
 
-    handle (message, args) {
-        this.bot.scheduler.addTask(new task(message.author, 'test', moment().add(10, 'seconds')))
+    async handle (message, args) {
 
-        let msg = new Message(message, 'Ok')
-        msg.send()
+        let str = args.join(' ')
+        let regex = new RegExp(/(.+)\s\"(.+)\"/i)
+
+        if (!regex.test(str)) {
+            throw 'Wrong Argument format!'
+        }
+
+        let chunks = str.match(regex)
+        let time = chunks[1].trim()
+        let msg = chunks[2].trim()
+
+        try {
+            time = chrono.parseDate(time, moment())
+        } catch (e) {
+            throw "Could not parse date!"
+        }
+
+
+        let storage = await this.bot.db.pull('remindme')
+        if (storage === null || !Array.isArray(storage)) storage = []
+        storage.push({ time: time, msg: msg, user: message.author.id, created: moment() })
+        await this.bot.db.set('remindme', storage)
+
+        let reply = new Reply(message)
+        reply.setTitle('Created a new Reminder')
+        reply.addField('Time', moment(time).format('dddd, MMMM Do YYYY, HH:mm z'))
+        reply.addField('Message', msg)
+        reply.send()
+
     }
 }
 
