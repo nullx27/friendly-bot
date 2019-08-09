@@ -14,6 +14,7 @@ class CommandHandler {
 
     async load () {
         let cmds = await loader(__dirname + '/../commands', this.bot)
+
         this.bot.logger.info(`${cmds.length} commands successfully loaded`)
 
         cmds.forEach(cmd => {
@@ -36,9 +37,10 @@ class CommandHandler {
     }
 
     async handle (message) {
-        await this.delegate.handle(message, this.commands).catch((e) => {
+        await this.delegate.handle(message, this.commands)
+        /*.catch((e) => {
             this.logger.warn('Command Delegate: ' + e)
-        })
+        })*/
     }
 }
 

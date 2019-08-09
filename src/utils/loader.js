@@ -7,7 +7,9 @@ const decache = require('decache');
 function loader(directory, bot) {
     let items = fs.readdirSync(directory);
 
-    let folders = items.filter(f => {fs.lstatSync(path.join(directory, f)).isDirectory()});
+    let folders = items.filter(f => {
+        return fs.lstatSync(path.join(directory, f)).isDirectory()
+    });
 
     let subcommands = folders.map(folder => {
         return loader(path.join(directory, folder), bot);

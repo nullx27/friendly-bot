@@ -36,12 +36,12 @@ class DelegateCommandHandler {
             }
         }
 
-        if (!trigger in commands) {
+        if (!Object.keys(commands).includes(trigger)) {
             this.sendError(message, 'Not Found', `Command not found, try ${process.env.CMD_PREFIX}help`)
             return null
         }
 
-        if (commands[trigger].prototype instanceof AdminCommand) {
+        if (commands[trigger] instanceof AdminCommand) {
             if (!message.author.id in this.admins) {
                 this.sendError(message, 'Denied', 'You\'re missing the required privileges to use this command.')
                 return null
@@ -51,6 +51,10 @@ class DelegateCommandHandler {
         try {
             await commands[trigger].handle(message, args, trigger)
         } catch (e) {
+            if (e instanceof Error) {
+                throw e
+            }
+
             this.sendError(message, 'Message', e)
         }
 
