@@ -24,12 +24,10 @@ class FriendlyBot {
         this.scheduler = new Scheduler()
 
         this.db = new DB(this.logger)
-
-        this.bootstrapped = false
     }
 
     registerEventHandlers () {
-        this.client.on('ready', (event) => this.readyEvent(this))
+        this.client.once('ready', (event) => this.readyEvent(this))
 
         this.client.on('disconnect', (event) => {
             this.logger.error(`Disconnected with close event: ${event.code}`)

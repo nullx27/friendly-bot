@@ -6,8 +6,8 @@ const AdminCommand = require('../models/AdminCommand')
 class DelegateCommandHandler {
 
     constructor () {
-        this.admins = process.env.ADMIN ? process.env.ADMIN.split(',') : []
-        this.restricted = process.env.RESTRICTED_CHANNELS ? process.env.RESTRICTED_CHANNELS.split(',') : []
+        this.admins = process.env.ADMIN.split(',')
+        this.restricted = process.env.RESTRICTED_CHANNELS.split(',')
         this.prefix = process.env.CMD_PREFIX
     }
 
@@ -42,7 +42,7 @@ class DelegateCommandHandler {
         }
 
         if (commands[trigger] instanceof AdminCommand) {
-            if (!message.author.id in this.admins) {
+            if (!this.admins.includes(message.author.id)) {
                 this.sendError(message, 'Denied', 'You\'re missing the required privileges to use this command.')
                 return null
             }
