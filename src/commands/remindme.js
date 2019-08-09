@@ -5,8 +5,15 @@ const Command = require('../models/Command')
 const moment = require('moment-timezone')
 const chrono = require('chrono-node')
 const Reply = require('../models/messages/Reply')
+const RemindmeTask = require('../tasks/remindme');
 
 class RemindMe extends Command {
+
+    constructor(bot) {
+        super(bot)
+        this.bot.scheduler.addTask(new RemindmeTask(this.bot, 3000));
+    }
+
     trigger () {
         return 'remindme'
     }
@@ -30,7 +37,6 @@ class RemindMe extends Command {
             throw "Could not parse date!"
         }
 
-
         let storage = await this.bot.db.pull('remindme')
         if (storage === null || !Array.isArray(storage)) storage = []
         storage.push({ time: time, msg: msg, user: message.author.id, created: moment() })
@@ -41,7 +47,6 @@ class RemindMe extends Command {
         reply.addField('Time', moment(time).format('dddd, MMMM Do YYYY, HH:mm z'))
         reply.addField('Message', msg)
         reply.send()
-
     }
 }
 
