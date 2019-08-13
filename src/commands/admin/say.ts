@@ -17,7 +17,7 @@ class Say extends AdminCommand {
         regex = new RegExp(/<#(\d+)>/i);
 
         let channel: TextChannel;
-        const client = this.cotainer.get('discord');
+        const client = this.container.get('discord');
 
         if (regex.test(chunks[1])) {
             // @ts-ignore

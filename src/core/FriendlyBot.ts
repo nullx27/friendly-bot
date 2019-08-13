@@ -5,10 +5,10 @@ import {Scheduler} from "./task/Scheduler";
 import {DB} from "./utils/db";
 import {Container} from "./utils/Container";
 import {Logger} from "winston";
-import {logger} from "./utils/Logger";
+import {makeLogger} from "./utils/Logger";
 
 export class FriendlyBot {
-    
+
     private commandHandler: CommandHandler;
     private notifyHandler: NotifyHandler;
     private readonly token: string | undefined;
@@ -17,7 +17,7 @@ export class FriendlyBot {
 
     constructor(container: Container) {
         this.container = container;
-        this.container.register<Logger>('logger', logger);
+        this.container.register<Logger>('logger', makeLogger(container));
         this.token = container.get('config').DISCORD_TOKEN;
 
         this.client = new Discord.Client({
@@ -29,11 +29,11 @@ export class FriendlyBot {
         });
 
         this.container.register<Discord.Client>('discord', this.client);
-        this.container.register<Scheduler>('scheduler', new Scheduler(this.container));
-        this.container.register<DB>('db', new DB(this.container));
+        this.container.register<Scheduler>('scheduler', new Scheduler(container));
+        this.container.register<DB>('db', new DB(container));
 
-        this.commandHandler = new CommandHandler(this);
-        this.notifyHandler = new NotifyHandler(this);
+        this.commandHandler = new CommandHandler(container);
+        this.notifyHandler = new NotifyHandler(container);
     }
 
     registerEventHandlers() {

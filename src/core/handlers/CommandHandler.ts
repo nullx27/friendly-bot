@@ -15,7 +15,7 @@ export class CommandHandler implements HandlerInterface {
     }
 
     load() {
-        let commands = loader(__dirname + '/../commands', this.container);
+        let commands = loader(__dirname + '/../../commands', this.container);
         this.container.get('logger').info(`${commands.length} commands successfully loaded`);
 
         for (const cmd of commands) {
@@ -29,7 +29,7 @@ export class CommandHandler implements HandlerInterface {
             }
         }
 
-        this.container.get('logger').logger.info(`${Object.keys(this.commands).length} commands triggers registered`)
+        this.container.get('logger').info(`${Object.keys(this.commands).length} commands triggers registered`)
     }
 
     async handle(message: Discord.Message) {

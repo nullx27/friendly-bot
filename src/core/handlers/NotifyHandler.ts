@@ -1,6 +1,5 @@
 import loader from '../utils/loader';
 import {HandlerInterface} from "../contracts/HandlerInterface";
-import {FriendlyBot} from "../FriendlyBot";
 import {Notification} from "../base/Notification";
 import {Container} from "../utils/Container";
 
@@ -12,7 +11,7 @@ export class NotifyHandler implements HandlerInterface {
     }
 
     async load(): Promise<void> {
-        this.notifications = loader(__dirname + '/../notifications', this.container);
+        this.notifications = loader(__dirname + '/../../notifications', this.container);
         this.container.get('logger').info(`${this.notifications.length} Notifiers loaded`);
         await this.handle();
     }

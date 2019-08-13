@@ -1,14 +1,15 @@
 import {Task} from "../../core/task/Task";
 import {EveOnlineStatus} from "../../fetcher/EveOnlineStatus";
 import moment from "moment";
+import {Container} from "../../core/utils/Container";
 
 class Eveonline extends Task {
-    async run () {
+    async run (container: Container) {
         const status = await EveOnlineStatus().
-            catch((e) => this.bot.logger.warn('Can\'t fetch Eve Online Status. Error: ' + e));
+            catch((e) => container.get('logger').warn('Can\'t fetch Eve Online Status. Error: ' + e));
 
         if (status !== null) {
-            this.bot.client.user.setPresence(
+            await container.get('client').user.setPresence(
                 {
                     status: 'online',
                     afk: false,
