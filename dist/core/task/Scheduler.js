@@ -61,7 +61,7 @@ var Scheduler = /** @class */ (function () {
                     }
                     else {
                         // @ts-ignore
-                        if (task.lastExecute + task.schedule.format('x') <= moment_1.default().format('x')) {
+                        if (task.lastExecute + moment_1.default(task.schedule).format('x') <= moment_1.default().format('x')) {
                             task.execute(_this.container);
                             task.lastExecute = parseInt(moment_1.default().format('x'));
                         }

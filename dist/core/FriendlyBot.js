@@ -81,8 +81,12 @@ var FriendlyBot = /** @class */ (function () {
         this.container.get('logger').info('Ready event received, starting normal operation.');
         this.commandHandler.load();
         this.notifyHandler.load();
-        setInterval(this.container.get('scheduler').run.bind(this.container), 1000);
+        this.setupScheduler();
         this.bootstrapped = true;
+    };
+    FriendlyBot.prototype.setupScheduler = function () {
+        var scheduler = this.container.get('scheduler');
+        setInterval(scheduler.run.bind(scheduler), 1000);
     };
     FriendlyBot.prototype.run = function () {
         return __awaiter(this, void 0, void 0, function () {

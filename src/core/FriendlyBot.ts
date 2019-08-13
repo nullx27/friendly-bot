@@ -39,7 +39,7 @@ export class FriendlyBot {
         this.registerEventHandlers();
     }
 
-    registerEventHandlers() {
+    private registerEventHandlers() {
         this.client.once('ready', () => this.readyEvent());
         this.client.on('disconnect', (event) => {
             this.container.get('logger').error(`Disconnected with close event: ${event.code}`)
@@ -51,16 +51,18 @@ export class FriendlyBot {
     }
 
     readyEvent() {
-        console.log('ready');
         if (this.bootstrapped) return;
         this.container.get('logger').info('Ready event received, starting normal operation.');
 
         this.commandHandler.load();
         this.notifyHandler.load();
-
-        setInterval(this.container.get('scheduler').run.bind(this.container), 1000);
-
+        this.setupScheduler();
         this.bootstrapped = true;
+    }
+
+    private setupScheduler() {
+        const scheduler = this.container.get('scheduler');
+        setInterval(scheduler.run.bind(scheduler), 1000);
     }
 
     async run() {

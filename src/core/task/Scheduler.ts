@@ -24,7 +24,7 @@ export class Scheduler {
                 }
             } else {
                 // @ts-ignore
-                if (task.lastExecute + task.schedule.format('x') <= moment().format('x')) {
+                if (task.lastExecute + moment(task.schedule).format('x') <= moment().format('x')) {
                     task.execute(this.container);
                     task.lastExecute = parseInt(moment().format('x'));
                 }

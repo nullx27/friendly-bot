@@ -68,9 +68,8 @@ var Eveonline = /** @class */ (function (_super) {
                             catch(function (e) { return container.get('logger').warn('Can\'t fetch Eve Online Status. Error: ' + e); })];
                     case 1:
                         status = _a.sent();
-                        console.log(status);
                         if (!(status !== null)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, container.get('client').user.setPresence({
+                        return [4 /*yield*/, container.get('discord').user.setPresence({
                                 status: 'online',
                                 afk: false,
                                 game: {
