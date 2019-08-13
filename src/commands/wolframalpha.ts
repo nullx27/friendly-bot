@@ -12,17 +12,17 @@ class WolframAlpha extends Command {
         return new Help()
             .addTitle('Wolfram Alpha')
             .addDescription('Calculates input though WolframAlpha')
-            .addCommand('calc <input>', 'Gives result from calculation from Wolfram Alpha');
+            .addCommand('calc <input>', 'Gives result from calculation from Wolfram Alpha')
+            .addDescription('<input> can be everything that can be calculated (and then some more)');
     }
 
     async handle(message: Discord.Message, args: string[]) {
         if (args.length === 0) throw 'Argument missing!';
 
-        const data = await wolframAlphaFetcher(args[0]);
+        const data = await wolframAlphaFetcher(args.join(' '));
         let reply = new Reply(message);
 
         reply.getEmbed().setAuthor('Worlfram|Alpha', 'https://i.imgur.com/YVWvjlM.png');
-        reply.getEmbed().setColor(0x00AE86);
 
         if (data === null) {
             reply.addField('Error', 'There was an error while trying to reach Wolfram Alpha, please try again later!')

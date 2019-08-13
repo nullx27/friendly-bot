@@ -11,8 +11,9 @@ class Time extends Command {
         return new Help()
             .addTitle('Global Time')
             .addDescription('Shows the current or a set time for different Timezones!')
-            .addCommand('!time', 'Shows current time')
-            .addCommand('!time HH:mm', 'Shows given time');
+            .addCommand('!time', 'Shows current time in different timezones')
+            .addCommand('!time <time>', 'Takes an UTC time and shows it in different Timezones')
+            .addDescription('<time> needs to in format with HH:mm.')
     }
 
     async handle(message: Discord.Message, args: string[]) {

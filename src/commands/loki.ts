@@ -5,10 +5,17 @@ import fs from "fs";
 import {getRandomInt} from "../core/utils/Helpers";
 import {Reply} from "../core/models/messages/Reply";
 import {Container} from "../core/utils/Container";
+import {Help} from "../core/models/messages/Help";
 
 @trigger('loki')
 export class Loki extends Command {
     protected lines: string[] = [];
+
+    public help(): Help {
+        return new Help()
+            .addTitle('Loki Quotes')
+            .addCommand('logi', 'Get a Loki Sotken quote');
+    }
 
     constructor(container: Container) {
         super(container);

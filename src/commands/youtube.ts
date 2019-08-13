@@ -7,11 +7,11 @@ import {trigger} from "../core/utils/Decorators";
 
 @trigger('youtube', 'y')
 class Youtube extends Command {
-    help() {
+    help(trigger: string): Help {
         return new Help()
             .addTitle('Youtube')
             .addDescription('Post a link for a Video on youtube matching your search term')
-            .addCommand('[y, youtube] <search>', 'Search for a youtube video');
+            .addCommand(trigger + ' <search>', 'Search for a youtube video');
     }
 
     async handle(message: Discord.Message, args: string[]) {
