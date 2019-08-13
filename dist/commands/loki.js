@@ -1,4 +1,26 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -34,33 +56,40 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var Help_1 = require("../models/messages/Help");
-var Command = /** @class */ (function () {
-    function Command(container) {
-        this.container = container;
-        this._trigger = '';
+var Command_1 = require("../core/base/Command");
+var Decorators_1 = require("../core/utils/Decorators");
+var fs_1 = __importDefault(require("fs"));
+var Helpers_1 = require("../core/utils/Helpers");
+var Reply_1 = require("../core/models/messages/Reply");
+var Container_1 = require("../core/utils/Container");
+var Loki = /** @class */ (function (_super) {
+    __extends(Loki, _super);
+    function Loki(container) {
+        var _this = _super.call(this, container) || this;
+        _this.lines = [];
+        var file = fs_1.default.readFileSync(__dirname + '/../../data/loki.json', 'utf8');
+        _this.lines = JSON.parse(file);
+        return _this;
     }
-    Object.defineProperty(Command.prototype, "trigger", {
-        get: function () {
-            return this._trigger;
-        },
-        set: function (value) {
-            this._trigger = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Command.prototype.help = function () {
-        return new Help_1.Help().addTitle("NOT SET!");
-    };
-    Command.prototype.handle = function (message, args, trigger) {
+    Loki.prototype.handle = function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
+            var line;
             return __generator(this, function (_a) {
+                line = this.lines[Helpers_1.getRandomInt(0, this.lines.length - 1)];
+                new Reply_1.Reply(message).addField('Quote', line, true).send();
                 return [2 /*return*/];
             });
         });
     };
-    return Command;
-}());
-exports.Command = Command;
+    Loki = __decorate([
+        Decorators_1.trigger('loki'),
+        __metadata("design:paramtypes", [Container_1.Container])
+    ], Loki);
+    return Loki;
+}(Command_1.Command));
+exports.Loki = Loki;
+module.exports = Loki;

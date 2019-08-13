@@ -75,7 +75,6 @@ var FriendlyBot = /** @class */ (function () {
         this.client.on('message', function (message) { return _this.commandHandler.handle(message); });
     };
     FriendlyBot.prototype.readyEvent = function () {
-        console.log('ready');
         if (this.bootstrapped)
             return;
         this.container.get('logger').info('Ready event received, starting normal operation.');

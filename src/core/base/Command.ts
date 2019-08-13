@@ -8,10 +8,7 @@ export abstract class Command implements Loadable {
     private _trigger: string | string[] = '';
 
     constructor(protected container: Container) {
-        this.init();
-    }
 
-    public init() {
     }
 
     public get trigger(): string | string[] {

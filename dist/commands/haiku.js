@@ -18,6 +18,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -53,49 +56,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var Command_1 = require("../core/base/Command");
-var Reply_1 = require("../core/models/messages/Reply");
-var Help_1 = require("../core/models/messages/Help");
 var Decorators_1 = require("../core/utils/Decorators");
+var fs_1 = __importDefault(require("fs"));
 var Helpers_1 = require("../core/utils/Helpers");
-var Dice = /** @class */ (function (_super) {
-    __extends(Dice, _super);
-    function Dice() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var Reply_1 = require("../core/models/messages/Reply");
+var Container_1 = require("../core/utils/Container");
+var Haiku = /** @class */ (function (_super) {
+    __extends(Haiku, _super);
+    function Haiku(container) {
+        var _this = _super.call(this, container) || this;
+        _this.lines = [];
+        var file = fs_1.default.readFileSync(__dirname + '/../../data/haiku.json', 'utf8');
+        _this.lines = JSON.parse(file);
+        return _this;
     }
-    Dice.prototype.help = function () {
-        return new Help_1.Help()
-            .addTitle('Dice')
-            .addDescription('Roll a dice')
-            .addCommand('![dice, roll, d] <input>', 'Roll a dice, takes a dice string like 1d6 or 2d10');
-    };
-    Dice.prototype.handle = function (message, args) {
+    Haiku.prototype.handle = function (message, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var regex, chunks, num, dice, reply, i;
+            var line;
             return __generator(this, function (_a) {
-                if (args.length === 0)
-                    throw 'Missing Arguments';
-                regex = new RegExp(/(\d+)?d(\d+)([\+\-]\d+)?/i);
-                if (!regex.test(args[0]))
-                    throw 'Wrong Argument Format';
-                chunks = args[0].match(regex);
-                if (chunks === null)
-                    throw 'Wrong Argument Format';
-                num = parseInt(chunks[0]);
-                dice = parseInt(chunks[1]);
-                reply = new Reply_1.Reply(message).setTitle("Rolled " + args[0] + " Dice");
-                for (i = 0; i < num; i++) {
-                    reply.addField("Dice " + (i + 1), Helpers_1.getRandomInt(1, dice).toString());
-                }
-                reply.send();
+                line = this.lines[Helpers_1.getRandomInt(0, this.lines.length - 1)];
+                new Reply_1.Reply(message)
+                    .setTitle('Haiku')
+                    .addField(line.author, line.text.replace(/^"+|"+$/g, ''), true).send();
                 return [2 /*return*/];
             });
         });
     };
-    Dice = __decorate([
-        Decorators_1.trigger('dice', 'roll', 'd')
-    ], Dice);
-    return Dice;
+    Haiku = __decorate([
+        Decorators_1.trigger('haiku'),
+        __metadata("design:paramtypes", [Container_1.Container])
+    ], Haiku);
+    return Haiku;
 }(Command_1.Command));
-module.exports = Dice;
+module.exports = Haiku;
