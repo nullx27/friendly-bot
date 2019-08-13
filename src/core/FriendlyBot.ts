@@ -1,6 +1,6 @@
 import {CommandHandler} from "./handlers/CommandHandler";
 import Discord from "discord.js";
-import {NotifyHandler} from "./handlers/NotifyHandler";
+import {NotificationHandler} from "./handlers/NotificationHandler";
 import {Scheduler} from "./task/Scheduler";
 import {DB} from "./utils/db";
 import {Container} from "./utils/Container";
@@ -10,10 +10,11 @@ import {makeLogger} from "./utils/Logger";
 export class FriendlyBot {
 
     private commandHandler: CommandHandler;
-    private notifyHandler: NotifyHandler;
+    private notifyHandler: NotificationHandler;
     private readonly token: string | undefined;
     private readonly client: Discord.Client;
     private readonly container: Container;
+    private bootstrapped: boolean = false;
 
     constructor(container: Container) {
         this.container = container;
@@ -33,33 +34,37 @@ export class FriendlyBot {
         this.container.register<DB>('db', new DB(container));
 
         this.commandHandler = new CommandHandler(container);
-        this.notifyHandler = new NotifyHandler(container);
+        this.notifyHandler = new NotificationHandler(container);
+
+        this.registerEventHandlers();
     }
 
     registerEventHandlers() {
-        this.client.once('ready', () => this.readyEvent.bind(this));
+        this.client.once('ready', () => this.readyEvent());
         this.client.on('disconnect', (event) => {
             this.container.get('logger').error(`Disconnected with close event: ${event.code}`)
         });
         this.client.on('error', error => this.container.get('logger').error(error));
         this.client.on('warn', warning => this.container.get('logger').warning(warning));
 
-        this.client.on('message',
-            message => this.commandHandler.handle(message))
+        this.client.on('message', message => this.commandHandler.handle(message));
     }
 
     readyEvent() {
+        console.log('ready');
+        if (this.bootstrapped) return;
         this.container.get('logger').info('Ready event received, starting normal operation.');
-        setInterval(this.container.get('scheduler').run.bind(this.container), 1000);
-    }
-
-    async run() {
-        this.container.get('logger').info('Bot started');
-        this.registerEventHandlers();
 
         this.commandHandler.load();
         this.notifyHandler.load();
 
+        setInterval(this.container.get('scheduler').run.bind(this.container), 1000);
+
+        this.bootstrapped = true;
+    }
+
+    async run() {
+        this.container.get('logger').info('Bot started');
         await this.client.login(this.token);
         this.container.get('logger').info('Successfully logged in')
     }

@@ -1,27 +1,27 @@
 import {Notification} from "../core/base/Notification";
-import {FriendlyBot} from "../core/FriendlyBot";
+import {Container} from "../core/utils/Container";
 
 class Presence extends Notification {
     private readonly provider: string;
     private readonly interval: number;
 
-    constructor(bot: FriendlyBot) {
-        super(bot);
-        // @ts-ignore
-        this.provider = process.env.PRESENCE_PROVIDER;
-        // @ts-ignore
-        this.interval = parseInt(process.env.PRESENCE_UPDATE_INTERVAL);
+    constructor(container: Container) {
+        super(container);
+
+        const config = this.container.get('config');
+        this.provider = config.PRESENCE_PROVIDER;
+        this.interval = parseInt(config.PRESENCE_UPDATE_INTERVAL);
     }
 
     async handle(): Promise<void> {
         if (!this.provider) {
-            this.bot.logger.info('No Presence Provider set. Skipping...');
+            this.container.get('logger').info('No Presence Provider set. Skipping...');
             return;
         }
 
-        this.bot.logger.info('Using Precense Provider: ' + this.provider);
+        this.container.get('logger').info('Using Precense Provider: ' + this.provider);
         const provider = require(`../tasks/presence/${this.provider}`);
-        this.bot.scheduler.addTask(new provider(this.bot, this.interval));
+        this.container.get('scheduler').addTask(new provider(this.interval));
     }
 }
 

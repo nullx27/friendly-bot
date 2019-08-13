@@ -3,7 +3,7 @@ import {HandlerInterface} from "../contracts/HandlerInterface";
 import {Notification} from "../base/Notification";
 import {Container} from "../utils/Container";
 
-export class NotifyHandler implements HandlerInterface {
+export class NotificationHandler implements HandlerInterface {
     private notifications: Notification[];
 
     constructor(protected container: Container) {
@@ -18,7 +18,7 @@ export class NotifyHandler implements HandlerInterface {
 
     async handle(): Promise<void> {
         for (const notification of this.notifications) {
-            await notification.handle()
+            notification.handle();
         }
     }
 }

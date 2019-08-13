@@ -8,6 +8,7 @@ class Eveonline extends Task {
         const status = await EveOnlineStatus().
             catch((e) => container.get('logger').warn('Can\'t fetch Eve Online Status. Error: ' + e));
 
+        console.log(status);
         if (status !== null) {
             await container.get('client').user.setPresence(
                 {
