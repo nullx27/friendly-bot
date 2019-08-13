@@ -1,16 +1,17 @@
-import {Task} from "../models/Task";
-import {Message} from "../models/messages/Message";
+import {Task} from "../core/task/Task";
+import {Message} from "../core/models/messages/Message";
 import moment from "moment";
+import {Container} from "../core/utils/Container";
 
 export class RemindMeTask extends Task {
 
-    async run() {
-        let storage = await this.bot.db.pull('remindme');
+    async run(container: Container) {
+        let storage = await container.get('db').pull('remindme');
         let remove = [];
 
         for (let i in storage) {
             if (moment(storage[i].time).diff(moment()) < 0) {
-                await this.sendNotification(storage[i]);
+                await this.sendNotification(storage[i], container);
                 remove.push(i);
             }
         }
@@ -20,11 +21,11 @@ export class RemindMeTask extends Task {
             storage.splice(index, 1);
         }
 
-        await this.bot.db.set('remindme', storage)
+        await container.get('db').set('remindme', storage)
     }
 
-    async sendNotification(reminder: Reminder) {
-        let user = await this.bot.client.fetchUser(reminder.user);
+    async sendNotification(reminder: Reminder, container: Container) {
+        let user = await container.get('discord').fetchUser(reminder.user);
         let dmchannel = await user.createDM();
 
         new Message(dmchannel)

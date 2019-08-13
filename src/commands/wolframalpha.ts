@@ -1,9 +1,9 @@
-import {Command, trigger} from "../models/Command";
-import {Help} from "../models/messages/Help";
+import {Command} from "../core/base/Command";
+import {trigger} from "../core/utils/Decorators";
+import {Help} from "../core/models/messages/Help";
 import {wolframAlphaFetcher} from "../fetcher/WolframAlpha";
-import {Reply} from "../models/messages/Reply";
+import {Reply} from "../core/models/messages/Reply";
 import Discord from 'discord.js';
-
 
 @trigger('calc')
 class WolframAlpha extends Command {

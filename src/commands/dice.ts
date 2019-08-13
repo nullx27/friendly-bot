@@ -1,9 +1,10 @@
-import {Command, trigger} from "../models/Command";
-import {Reply} from "../models/messages/Reply";
-import {Help} from "../models/messages/Help";
+import {Command} from "../core/base/Command";
+import {Reply} from "../core/models/messages/Reply";
+import {Help} from "../core/models/messages/Help";
+import {trigger} from "../core/utils/Decorators";
 import Discord from 'discord.js';
 
-@trigger(['dice', 'roll', 'd'])
+@trigger('dice', 'roll', 'd')
 class Dice extends Command {
     help() {
         return new Help()

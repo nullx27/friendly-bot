@@ -1,17 +1,16 @@
-import {Command, trigger} from "../models/Command";
+import {Command} from "../core/base/Command";
+import {trigger} from "../core/utils/Decorators";
+import {Reply} from "../core/models/messages/Reply";
+import {RemindMeTask} from "../tasks/remindme";
+import Discord from 'discord.js';
 import moment from "moment-timezone";
 import chrono from "chrono-node";
-import {Reply} from "../models/messages/Reply";
-import {RemindMeTask, Reminder} from "../tasks/remindme";
-import {FriendlyBot} from "../friendly-bot";
-import Discord from 'discord.js';
 
 @trigger('remindme')
 class RemindMe extends Command {
 
-    constructor(bot: FriendlyBot) {
-        super(bot);
-        this.bot.scheduler.addTask(new RemindMeTask(this.bot, 3000));
+    init() {
+        this.container.get('scheduler').addTask(new RemindMeTask(3000));
     }
 
     async handle(message: Discord.Message, args: string[]) {
@@ -34,11 +33,11 @@ class RemindMe extends Command {
             throw "Could not parse date!"
         }
 
-        let storage = await this.bot.db.pull('remindme');
+        let storage = await this.container.get('db').pull('remindme');
         if (storage === null || !Array.isArray(storage)) storage = [];
         storage.push({time: time, msg: msg, user: message.author.id, created: moment()});
 
-        await this.bot.db.set('remindme', storage);
+        await this.container.get('db').set('remindme', storage);
 
         new Reply(message)
             .setTitle('Created a new Reminder')

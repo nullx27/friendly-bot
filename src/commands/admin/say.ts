@@ -1,6 +1,6 @@
-import {AdminCommand} from "../../models/AdminCommand";
-import {trigger} from "../../models/Command";
-import Discord, {Channel, TextChannel} from 'discord.js';
+import {AdminCommand} from "../../core/base/AdminCommand";
+import Discord, {TextChannel} from 'discord.js';
+import {trigger} from "../../core/utils/Decorators";
 
 @trigger('say')
 class Say extends AdminCommand {
@@ -17,12 +17,14 @@ class Say extends AdminCommand {
         regex = new RegExp(/<#(\d+)>/i);
 
         let channel: TextChannel;
+        const client = this.cotainer.get('discord');
+
         if (regex.test(chunks[1])) {
             // @ts-ignore
-            channel = this.bot.client.channels.get(chunks[1].match(regex)[1]);
+            channel = client.channels.get(chunks[1].match(regex)[1]);
         } else {
             // @ts-ignore
-            channel = this.bot.client.channels.find(x => x.name === chunks[1]);
+            channel = client.channels.find(x => x.name === chunks[1]);
         }
 
         if (!channel) throw 'Channel not found!';

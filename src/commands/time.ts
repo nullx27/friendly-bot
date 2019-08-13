@@ -1,9 +1,9 @@
-import {Command, trigger} from "../models/Command";
-import {Reply} from "../models/messages/Reply";
-import {Help} from "../models/messages/Help";
+import {Command} from "../core/base/Command";
+import {trigger} from "../core/utils/Decorators";
+import {Reply} from "../core/models/messages/Reply";
+import {Help} from "../core/models/messages/Help";
 import moment from 'moment-timezone';
 import Discord from 'discord.js';
-
 
 @trigger('time')
 class Time extends Command {

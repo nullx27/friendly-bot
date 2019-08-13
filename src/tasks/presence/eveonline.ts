@@ -1,4 +1,4 @@
-import {Task} from "../../models/Task";
+import {Task} from "../../core/task/Task";
 import {EveOnlineStatus} from "../../fetcher/EveOnlineStatus";
 import moment from "moment";
 

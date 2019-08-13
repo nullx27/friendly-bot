@@ -1,5 +1,6 @@
-import {Command, trigger} from '../models/Command';
-import {SimpleReply} from '../models/messages/SimpleReply';
+import {Command} from '../core/base/Command';
+import {trigger} from "../core/utils/Decorators";
+import {SimpleReply} from '../core/models/messages/SimpleReply';
 import Discord from 'discord.js';
 
 @trigger('ping')

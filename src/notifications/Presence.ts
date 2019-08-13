@@ -1,5 +1,5 @@
-import {Notification} from "../models/Notification";
-import {FriendlyBot} from "../friendly-bot";
+import {Notification} from "../core/base/Notification";
+import {FriendlyBot} from "../core/FriendlyBot";
 
 class Presence extends Notification {
     private readonly provider: string;

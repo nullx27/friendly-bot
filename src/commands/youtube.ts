@@ -1,10 +1,11 @@
-import {Command, trigger} from "../models/Command";
-import {Reply} from "../models/messages/Reply";
-import {Help} from "../models/messages/Help";
+import {Command} from "../core/base/Command";
+import {Reply} from "../core/models/messages/Reply";
+import {Help} from "../core/models/messages/Help";
 import {YouTube} from "../fetcher/YouTube";
 import Discord from 'discord.js';
+import {trigger} from "../core/utils/Decorators";
 
-@trigger(['youtube', 'y'])
+@trigger('youtube', 'y')
 class Youtube extends Command {
     help() {
         return new Help()
