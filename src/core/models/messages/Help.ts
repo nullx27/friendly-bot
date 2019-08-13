@@ -22,7 +22,7 @@ export class Help implements MessageInterface {
     }
 
     addCommand(cmd: string, desc: string): Help {
-        this.msg.addField(cmd, desc);
+        this.msg.addField(cmd, desc, true);
         return this;
     }
 

@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-export const Imgur = async (channel: string, type: string) => {
+export const imgurApiFetcher = async (channel: string, type: string) => {
     const url = `https://imgur.com/r/${channel}/${type}.json`;
 
     try {
