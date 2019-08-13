@@ -9,3 +9,4 @@ yarn.lock
 package-lock.json
 log.txt
 tsconfig.tsbuildinfo
+dist/

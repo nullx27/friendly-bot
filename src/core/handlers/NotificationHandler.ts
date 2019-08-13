@@ -1,4 +1,4 @@
-import loader from '../utils/loader';
+import loader from '../utils/Loader';
 import {HandlerInterface} from "../contracts/HandlerInterface";
 import {Notification} from "../base/Notification";
 import {Container} from "../utils/Container";

@@ -1,6 +1,6 @@
 import {HandlerInterface} from '../contracts/HandlerInterface'
 import {Command} from "../base/Command";
-import loader from "../utils/loader";
+import loader from "../utils/Loader";
 import {DelegateCommandHandler} from "./DelegateCommandHandler";
 import Discord from 'discord.js';
 import {Container} from "../utils/Container";

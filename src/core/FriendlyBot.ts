@@ -2,7 +2,7 @@ import {CommandHandler} from "./handlers/CommandHandler";
 import Discord from "discord.js";
 import {NotificationHandler} from "./handlers/NotificationHandler";
 import {Scheduler} from "./task/Scheduler";
-import {DB} from "./utils/db";
+import {DB} from "./utils/DB";
 import {Container} from "./utils/Container";
 import {Logger} from "winston";
 import {makeLogger} from "./utils/Logger";
