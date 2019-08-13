@@ -28,17 +28,19 @@ export class DelegateCommandHandler implements HandlerInterface {
         if (trigger === 'help') {
             if (!args[0]) {
                 this.sendHelp(message, Object.keys(commands));
+                return;
             }
 
             if (args[0] in commands) {
-                let help = commands[args[0]].help();
+                let help = commands[args[0]].help(args[0]);
                 message.channel.send(help.getMessage());
+                return;
             }
         }
 
         if (!Object.keys(commands).includes(trigger)) {
             this.sendError(message, 'Not Found', `Command not found, try ${process.env.CMD_PREFIX}help`);
-            return
+            return;
         }
 
         if (commands[trigger] instanceof AdminCommand) {

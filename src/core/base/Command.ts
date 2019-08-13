@@ -19,10 +19,9 @@ export abstract class Command implements Loadable {
         this._trigger = value;
     }
 
-    help(): Help {
+    help(trigger: string): Help {
         return new Help().addTitle("NOT SET!");
     }
 
-    async handle(message: Discord.Message, args: any[], trigger: string): Promise<void> {
-    }
+    async handle(message: Discord.Message, args: any[], trigger: string): Promise<void> {}
 }
