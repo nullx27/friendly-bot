@@ -21,7 +21,7 @@ class Time extends Command {
 
         if (args.length > 0) {
             let arg = args[0];
-            let regex = new RegExp('/([01]?[0-9]|2[0-3]):[0-5][0-9]/');
+            let regex = new RegExp(/^(\\d{1,2}):(\\d{2})(?::(\\d{2}))?$/);
 
             if (!regex.test(arg)) throw 'Wrong Argument Format!';
 
