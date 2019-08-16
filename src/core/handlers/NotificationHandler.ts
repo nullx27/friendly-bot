@@ -18,7 +18,7 @@ export class NotificationHandler implements HandlerInterface {
 
     async handle(): Promise<void> {
         for (const notification of this.notifications) {
-            notification.handle();
+            await notification.handle();
         }
     }
 }

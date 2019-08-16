@@ -1,11 +1,11 @@
 import {Task} from "../../core/task/Task";
-import {EveOnlineStatus} from "../../fetcher/EveOnlineStatus";
+import {fetchStatus} from "../../fetcher/Esi";
 import moment from "moment";
 import {Container} from "../../core/utils/Container";
 
 class Eveonline extends Task {
     async run (container: Container) {
-        const status = await EveOnlineStatus().
+        const status = await fetchStatus().
             catch((e) => container.get('logger').warn('Can\'t fetch Eve Online Status. Error: ' + e));
 
         if (status !== null) {
