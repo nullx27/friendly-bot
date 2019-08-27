@@ -39,7 +39,7 @@ class Time extends Command {
 
         new Reply(message)
             .addField('Timezone', Object.keys(data).join('\n'), true)
-            .addField('Tile', Object.values(data).join('\n'), true)
+            .addField('Time', Object.values(data).join('\n'), true)
             .send();
     }
 }
