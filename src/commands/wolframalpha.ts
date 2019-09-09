@@ -22,7 +22,7 @@ class WolframAlpha extends Command {
         const data = await wolframAlphaFetcher(args.join(' '));
         let reply = new Reply(message);
 
-        reply.getEmbed().setAuthor('Worlfram|Alpha', 'https://i.imgur.com/YVWvjlM.png');
+        reply.getEmbed().setAuthor('Wolfram|Alpha', 'https://i.imgur.com/YVWvjlM.png');
 
         if (data === null) {
             reply.addField('Error', 'There was an error while trying to reach Wolfram Alpha, please try again later!')
