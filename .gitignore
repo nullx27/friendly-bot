@@ -5,8 +5,6 @@ config.json
 remindme.json
 botlink.txt
 .env
-yarn.lock
-package-lock.json
 log.txt
 tsconfig.tsbuildinfo
 dist/
