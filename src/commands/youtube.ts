@@ -18,7 +18,7 @@ class Youtube extends Command {
         if (args.length === 0) throw 'Argument Missing!';
 
         let data = await YouTube(args.join(' '));
-        
+
         if (data == null || data.items[0].id.videoId == null) {
             new SimpleReply(message, 'No video found for that input!').send();
             return

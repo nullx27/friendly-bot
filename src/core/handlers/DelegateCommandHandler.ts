@@ -23,7 +23,7 @@ export class DelegateCommandHandler implements HandlerInterface {
         if (message.channel.id in this.restricted) return;
 
         let chunks = message.content.split(' ');
-        let [trigger, args] = [chunks[0].substring(1), chunks.splice(1)];
+        let [trigger, args] = [chunks[0].substring(1).toLowerCase(), chunks.splice(1)];
 
         if (trigger === 'help') {
             if (!args[0]) {
