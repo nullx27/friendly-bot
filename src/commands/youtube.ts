@@ -5,7 +5,7 @@ import {YouTube} from "../fetcher/YouTube";
 import Discord from 'discord.js';
 import {trigger} from "../core/utils/Decorators";
 
-@trigger('youtube', 'y', 'YOUTUBE')
+@trigger('youtube', 'y')
 class Youtube extends Command {
     help(trigger: string): Help {
         return new Help()
