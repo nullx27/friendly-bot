@@ -7,7 +7,7 @@ import {getRandomInt} from "../core/utils/Helpers";
 import {Reply} from "../core/models/messages/Reply";
 import {Help} from "../core/models/messages/Help";
 
-@trigger('natureislit', 'tinder', 'sos', 'redhead', 'instantregret', 'gif', 'gadot')
+@trigger('natureislit', 'tinder', 'sos', 'redhead', 'instantregret', 'gif', 'gadot', 'dog', 'cat', 'betterloop')
 class Imgur extends Command {
 
     public help(trigger: string): Help {
@@ -41,6 +41,15 @@ class Imgur extends Command {
                 break;
             case 'gadot':
                 res = await imgurApiFetcher('GalGadot', 'hot');
+                break;
+            case 'dog':
+                res = await imgurApiFetcher('dogs', 'hot');
+                break;
+            case 'cat':
+                res = await imgurApiFetcher('cats', 'hot');
+                break;
+            case 'betterloop':
+                res = await imgurApiFetcher('bettereveryloop', 'hot');
                 break;
         }
 
