@@ -3,7 +3,7 @@ export function trigger(...trigger: string[]) {
         let prototype = constructor.prototype;
 
         let c = class extends constructor {
-            _trigger = trigger;
+            _trigger = trigger.map(f => {return f.toLowerCase(); });
         };
 
         c.prototype = prototype;

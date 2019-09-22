@@ -25,6 +25,10 @@ export class DelegateCommandHandler implements HandlerInterface {
         let chunks = message.content.split(' ');
         let [trigger, args] = [chunks[0].substring(1).toLowerCase(), chunks.splice(1)];
 
+        //ignore "!!" or "! " commands
+        if (trigger.length <= 0) return;
+        if (trigger.includes(this.prefix)) return;
+
         if (trigger === 'help') {
             if (!args[0]) {
                 this.sendHelp(message, Object.keys(commands));
