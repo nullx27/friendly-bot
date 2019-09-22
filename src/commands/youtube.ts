@@ -1,5 +1,5 @@
 import {Command} from "../core/base/Command";
-import {Reply} from "../core/models/messages/Reply";
+import {SimpleReply} from "../core/models/messages/SimpleReply";
 import {Help} from "../core/models/messages/Help";
 import {YouTube} from "../fetcher/YouTube";
 import Discord from 'discord.js';
@@ -18,14 +18,13 @@ class Youtube extends Command {
         if (args.length === 0) throw 'Argument Missing!';
 
         let data = await YouTube(args.join(' '));
-        let reply = new Reply(message).setTitle('YouTube');
-
+        
         if (data == null || data.items[0].id.videoId == null) {
-            reply.addField('Error', 'No video found for that input!').send();
+            new SimpleReply(message, 'No video found for that input!').send();
             return
         }
 
-        reply.send(`https://www.youtube.com/watch?v=${data.items[0].id.videoId}`);
+        new SimpleReply(message, `https://www.youtube.com/watch?v=${data.items[0].id.videoId}`).send();
     }
 }
 
